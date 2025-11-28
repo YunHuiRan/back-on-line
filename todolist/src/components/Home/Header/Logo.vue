@@ -18,7 +18,7 @@
     repeating-linear-gradient(180deg, transparent, rgba(108, 230, 255, 0.3) 30px),
     repeating-linear-gradient(120deg, rgba(16, 179, 215, 0.3), transparent 46px);
 
-  background: linear-gradient(0.25turn, transparent, white 90%),
+  background: linear-gradient(0.25turn, transparent, white 40%, white 10%),
     var(--triangle-background);
 }
 </style>

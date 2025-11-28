@@ -3,6 +3,7 @@
 :root {
   --main-blue: #22d3f2;
   --main-pink: #ff78c4;
+  --btn-background: #128afa;
 }
 
 * {
@@ -12,5 +13,9 @@
 body {
   font-family: "Smiley Sans Oblique";
   color: rgb(57, 58, 60);
+}
+
+button:hover {
+  cursor: pointer;
 }
 
