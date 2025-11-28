@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full">
+  <div class="w-full h-full rounded-xl shadow-2xl shadow-[#2887c8]">
     <el-container class="w-full h-full">
       <!-- header -->
       <el-header style="padding: 0%" height="10vh">
@@ -8,11 +8,8 @@
 
       <el-container>
         <!-- aside -->
-        <el-aside
-          width="20vw"
-          class="bg-[#F352AE] rounded-tr-[50px] p-6 flex flex-col space-y-5"
-        >
-          <AddTodo></AddTodo>
+        <el-aside width="20vw">
+          <Aside></Aside>
         </el-aside>
 
         <!-- main -->
@@ -75,9 +72,7 @@
 import { defineAsyncComponent, ref } from "vue";
 
 const Header = defineAsyncComponent(() => import("./Header/Index.vue"));
-const Logo = defineAsyncComponent(() => import("./Header/Logo.vue"));
-const Notification = defineAsyncComponent(() => import("./Header/Notification.vue"));
-const AddTodo = defineAsyncComponent(() => import("../AddTodo/Index.vue"));
+const Aside = defineAsyncComponent(() => import("./Aside/Index.vue"));
 const Tags = defineAsyncComponent(() => import("./Tags.vue"));
 
 interface ToDoState {
@@ -98,4 +93,4 @@ function setCurrentState(state: keyof ToDoState): void {
 }
 </script>
 
-<style scoped></style>
+<style></style>
