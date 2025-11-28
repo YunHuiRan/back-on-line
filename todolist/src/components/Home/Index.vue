@@ -1,9 +1,9 @@
 <template>
   <div class="w-full h-full">
-    <el-container class="w-full h-full bg-[#F0F6F6]">
+    <el-container class="w-full h-full">
       <!-- header -->
       <el-header
-        class="bg-[#FCE000] flex justify-center items-center"
+        class="flex justify-center items-center border-2 border-white rounded-t-xl"
         style="padding: 0%"
         height="10vh"
       >
@@ -103,4 +103,4 @@ function setCurrentState(state: keyof ToDoState): void {
 }
 </script>
 
-<style></style>
+<style scoped></style>

@@ -14,7 +14,6 @@
   height: 100vh;
   padding: 20px;
   position: relative;
-  overflow: hidden;
   filter: saturate(1.2);
   background: radial-gradient(circle at 20% 30%, rgba(34, 211, 242, 0.2), transparent 45%),
     radial-gradient(circle at 80% 70%, rgba(255, 120, 196, 0.18), transparent 50%),
