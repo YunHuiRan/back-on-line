@@ -2,14 +2,8 @@
   <div class="w-full h-full">
     <el-container class="w-full h-full">
       <!-- header -->
-      <el-header
-        class="flex justify-center items-center border-2 border-white rounded-t-xl"
-        style="padding: 0%"
-        height="10vh"
-      >
-        <Logo></Logo>
-
-        <Notification></Notification>
+      <el-header style="padding: 0%" height="10vh">
+        <Header></Header>
       </el-header>
 
       <el-container>
@@ -80,8 +74,9 @@
 <script setup lang="ts">
 import { defineAsyncComponent, ref } from "vue";
 
-const Logo = defineAsyncComponent(() => import("./Logo.vue"));
-const Notification = defineAsyncComponent(() => import("./Notification.vue"));
+const Header = defineAsyncComponent(() => import("./Header/Index.vue"));
+const Logo = defineAsyncComponent(() => import("./Header/Logo.vue"));
+const Notification = defineAsyncComponent(() => import("./Header/Notification.vue"));
 const AddTodo = defineAsyncComponent(() => import("../AddTodo/Index.vue"));
 const Tags = defineAsyncComponent(() => import("./Tags.vue"));
 
