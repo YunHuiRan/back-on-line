@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full rounded-xl shadow-2xl shadow-[#2887c8]">
+  <div class="w-full h-full rounded-xl shadow-2xl shadow-white border border-white">
     <el-container class="w-full h-full">
       <!-- header -->
       <el-header style="padding: 0%" height="10vh">
