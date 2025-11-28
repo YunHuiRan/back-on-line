@@ -1,31 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  background-color: #4af2d6;
-  font-family: "Smiley Sans Oblique";
-  color: rgb(57, 58, 60);
+  --main-blue: #22d3f2;
+  --main-pink: #ff78c4;
 }
 
 * {
   overflow: hidden;
 }
 
-#app {
-  width: calc(100% - 30px);
-  height: calc(100% - 30px);
-}
-
 body {
-  width: 100vw;
-  height: 100vh;
-  margin: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-div,
-li {
-  border-radius: 12px;
+  font-family: "Smiley Sans Oblique";
+  color: rgb(57, 58, 60);
 }
 
