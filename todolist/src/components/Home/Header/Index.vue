@@ -30,6 +30,7 @@ const Notification = defineAsyncComponent(() => import("./Notification.vue"));
   border-top: 2px;
 }
 
+/* 顶部border从左到右渐变 */
 .header-container::before {
   content: "";
   position: absolute;
@@ -41,6 +42,7 @@ const Notification = defineAsyncComponent(() => import("./Notification.vue"));
   background: linear-gradient(to right, white 20%, var(--main-blue));
 }
 
+/* 右侧border上到下渐变 */
 .header-container::after {
   content: "";
   position: absolute;
