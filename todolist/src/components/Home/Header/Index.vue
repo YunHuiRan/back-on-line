@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full h-full">
+  <div class="header-container flex w-full h-full">
     <Logo></Logo>
 
     <Notification></Notification>
@@ -13,4 +13,9 @@ const Logo = defineAsyncComponent(() => import("./Logo.vue"));
 const Notification = defineAsyncComponent(() => import("./Notification.vue"));
 </script>
 
-<style></style>
+<style scoped>
+.header-container {
+  /* background-image: url("@/assets/banner.webp"); */
+  background: linear-gradient(to right, url("/src/assets/banner.webp"), white);
+}
+</style>

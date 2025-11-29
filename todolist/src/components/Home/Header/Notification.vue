@@ -1,13 +1,9 @@
 <template>
-  <div class="notification w-1/2 h-full flex justify-end items-center px-6">
+  <div class="w-1/2 h-full flex justify-end items-center px-6">
     <el-icon size="30px"><Notification /></el-icon>
   </div>
 </template>
 
 <script setup lang="ts"></script>
 
-<style scoped>
-.notification {
-  background: linear-gradient(to right, white, transparent);
-}
-</style>
+<style scoped></style>

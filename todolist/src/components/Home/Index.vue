@@ -1,8 +1,6 @@
 <template>
-  <div
-    class="w-full h-full rounded-xl shadow-2xl shadow-white border-2 border-[#ffffff90]"
-  >
-    <el-container class="w-full h-full">
+  <div class="index-container w-full h-full rounded-xl border-2 border-[#ffffff90]">
+    <el-container class="w-full h-full relative">
       <el-header style="padding: 0%" height="10vh">
         <Header></Header>
       </el-header>
@@ -28,4 +26,22 @@ const Aside = defineAsyncComponent(() => import("./Aside/Index.vue"));
 const Main = defineAsyncComponent(() => import("./Main/Index.vue"));
 </script>
 
-<style></style>
+<style scoped>
+.index-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.index-container ::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: url("/src/assets/banner.webp") no-repeat top left;
+  background-size: cover;
+  z-index: -1;
+}
+</style>
