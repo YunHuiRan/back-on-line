@@ -1,0 +1,10 @@
+* {
+  overflow: hidden;
+}
+
+html {
+}
+
+button:hover {
+  cursor: pointer;
+}
