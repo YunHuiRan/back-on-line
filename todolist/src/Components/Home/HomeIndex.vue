@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-1/2 flex justify-center items-center flex-col text-4xl font-[700] p-4"
+    class="w-full h-1/2 flex justify-center items-center flex-col text-4xl font-bold p-4"
   >
     <span> SenSei's Work </span>
     <span> Hello </span>
