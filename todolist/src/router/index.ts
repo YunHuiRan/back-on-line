@@ -2,11 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   { path: "/", redirect: "/home" },
-  {
-    path: "/home",
-    component: () => import("@/components/Home/Index.vue"),
-    name: "home",
-  },
 ];
 
 const router = createRouter({
