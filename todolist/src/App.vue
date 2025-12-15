@@ -13,6 +13,7 @@
               size="large"
               ref="addBtnRef"
               @click="drawer = true"
+              aria-label="Add new todo"
             >
               add to-do
             </el-button>
@@ -67,7 +68,6 @@
                     type="datetimerange"
                     start-placeholder="Start Date"
                     end-placeholder="End Date"
-                    @change="drawer = true"
                   />
                 </el-form-item>
 
@@ -87,7 +87,7 @@
         <TransitionGroup name="list" tag="div" class="relative">
           <el-card
             v-for="todo in toDoList"
-            :key="todo"
+            :key="todo.id"
             class="w-full h-[150px] mb-2 relative"
             :style="{ opacity: todo.state === 'unfinished' ? 1 : 0.5 }"
           >
@@ -121,12 +121,14 @@
                 <button
                   class="w-1/2 h-full flex justify-center items-center rounded-lg text-lg transition-all ease-in-out hover:cursor-pointer hover:bg-(--el-green) hover:w-full hover:text-3xl"
                   @click="completeToDo(todo)"
+                  aria-label="Complete todo"
                 >
                   <el-icon><Check /></el-icon>
                 </button>
                 <button
                   class="w-1/2 h-full flex justify-center items-center rounded-lg text-lg transition-all ease-in-out hover:cursor-pointer hover:bg-(--el-red) hover:w-full hover:text-3xl"
                   @click="deleteToDo(todo)"
+                  aria-label="Delete todo"
                 >
                   <el-icon><Close /></el-icon>
                 </button>
@@ -144,21 +146,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted, watch } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
-import { useDark, useDateFormat } from "@vueuse/core";
+import { useDark } from "@vueuse/core";
+import { v4 as uuidv4 } from "uuid";
 
 const isDark = useDark();
 const toggleDark = ref(isDark.value);
 function toggleDarkMode() {
   isDark.value = !isDark.value;
 }
-function formattedData(date: string) {
-  return useDateFormat(date, "YYYY-MM-DD HH:mm:ss");
+function formattedData(dateStr: string) {
+  const d = new Date(dateStr);
+  if (Number.isNaN(d.getTime())) return dateStr;
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(
+    d.getHours()
+  )}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 }
 
 const toDoList = ref<NewToDoType[]>([
   {
+    id: uuidv4(),
     title: "Sample To-Do",
     description:
       "This is a sample to-do item. You can add your own to-do items using the form.",
@@ -166,6 +175,7 @@ const toDoList = ref<NewToDoType[]>([
     state: "unfinished",
   },
   {
+    id: uuidv4(),
     title: "Another To-Do",
     description:
       "Remember to complete your tasks on time! This is another example of a to-do item.",
@@ -173,6 +183,7 @@ const toDoList = ref<NewToDoType[]>([
     state: "unfinished",
   },
   {
+    id: uuidv4(),
     title: "Meeting Preparation",
     description:
       "Prepare for the upcoming meeting by reviewing the agenda and gathering necessary materials.",
@@ -182,17 +193,19 @@ const toDoList = ref<NewToDoType[]>([
 ]);
 const drawer = ref(false);
 const ruleFormRef = ref<FormInstance>();
-const ruleForm = reactive<NewToDoType>({
+type NewToDoForm = Omit<NewToDoType, "id" | "state">;
+const ruleForm = reactive<NewToDoForm>({
   title: "",
   description: "",
   dateRange: [],
 });
 
 type NewToDoType = {
+  id: string;
   title: string;
   description: string;
   dateRange: Array<string>;
-  state?: "unfinished" | "completed" | "deleted";
+  state: "unfinished" | "completed" | "deleted";
 };
 
 const rules = reactive<FormRules<NewToDoType>>({
@@ -218,12 +231,14 @@ function submitForm() {
   if (!ruleFormRef) return;
   ruleFormRef.value?.validate((valid) => {
     if (valid) {
-      console.log("submit!");
-      toDoList.value.push({ ...ruleForm, state: "unfinished" });
+      toDoList.value.push({
+        id: uuidv4(),
+        ...ruleForm,
+        state: "unfinished",
+      } as NewToDoType);
       drawer.value = false;
       resetForm();
     } else {
-      console.log("error submit!");
     }
   });
 }
@@ -232,27 +247,60 @@ function resetForm() {
   ruleFormRef.value?.resetFields();
 }
 
-function completeToDo(item: any) {
-  const i = toDoList.value.indexOf(item);
+function completeToDo(item: NewToDoType) {
+  const i = toDoList.value.findIndex((t) => t.id === item.id);
   if (i > -1) {
     toDoList.value[i]!.state = "completed";
-    toDoList.value = toDoList.value.sort((a, b) => {
+    toDoList.value.sort((a, b) => {
       const stateOrder = { unfinished: 0, completed: 1, deleted: 2 };
-      return stateOrder[a.state!] - stateOrder[b.state!];
+      return stateOrder[a.state] - stateOrder[b.state];
     });
   }
 }
 
-function deleteToDo(item: any) {
-  const i = toDoList.value.indexOf(item);
+function deleteToDo(item: NewToDoType) {
+  const i = toDoList.value.findIndex((t) => t.id === item.id);
   if (i > -1) {
     toDoList.value[i]!.state = "deleted";
-    toDoList.value = toDoList.value.sort((a, b) => {
+    toDoList.value.sort((a, b) => {
       const stateOrder = { unfinished: 0, completed: 1, deleted: 2 };
-      return stateOrder[a.state!] - stateOrder[b.state!];
+      return stateOrder[a.state] - stateOrder[b.state];
     });
   }
 }
+
+// persistence
+const STORAGE_KEY = "todo-list";
+onMounted(() => {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw) as NewToDoType[];
+      // ensure ids and states are valid
+      toDoList.value = parsed.map((t) => ({
+        id: t.id || uuidv4(),
+        title: t.title || "",
+        description: t.description || "",
+        dateRange: t.dateRange || [],
+        state: t.state || "unfinished",
+      }));
+    } catch (e) {
+      // ignore
+    }
+  }
+});
+
+watch(
+  toDoList,
+  (val) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(val));
+    } catch (e) {
+      // ignore quota errors
+    }
+  },
+  { deep: true }
+);
 </script>
 
 <style scoped>
