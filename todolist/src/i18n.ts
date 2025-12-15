@@ -64,7 +64,6 @@ export function useI18n() {
                 window.localStorage.setItem(STORAGE_KEY, l);
             }
         } catch (e) {
-            // ignore storage errors
         }
     }
 

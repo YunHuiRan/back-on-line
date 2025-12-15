@@ -26,7 +26,7 @@
                   @change="setLang"
                   placeholder="Lang"
                   class="mr-2"
-                  style="width: 92px"
+                  style="width: 90px"
                 >
                   <el-option label="中文" :value="'zh'" />
                   <el-option label="EN" :value="'en'" />
