@@ -67,17 +67,13 @@
 
       <!-- list -->
       <div class="flex flex-col w-full h-full gap-y-2">
-        <div
-          v-for="(i, index) in toDoList"
-          :index="index"
-          class="w-full h-[100px] bg-amber-200"
-        >
-          {{ i }}
-        </div>
+        <el-card v-for="(i, index) in toDoList" :index="index" class="w-full h-[100px]">
+          {{ i.title }}
+        </el-card>
 
-        <div v-if="toDoList.length === 0" class="w-full h-[100px] bg-amber-200">
+        <el-card v-if="toDoList.length === 0" class="w-full h-[100px] text-center">
           please add todo
-        </div>
+        </el-card>
       </div>
     </el-card>
   </main>
@@ -87,7 +83,7 @@
 import { ref, reactive } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
 
-const toDoList = ref<any>([]);
+const toDoList = ref<NewToDoType[]>([]);
 const drawer = ref(false);
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive<NewToDoType>({
@@ -126,6 +122,9 @@ function submitForm() {
   ruleFormRef.value?.validate((valid) => {
     if (valid) {
       console.log("submit!");
+      toDoList.value.push({ ...ruleForm });
+      drawer.value = false;
+      resetForm();
     } else {
       console.log("error submit!");
     }
