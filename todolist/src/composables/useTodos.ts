@@ -10,19 +10,11 @@ import { v4 as uuidv4 } from "uuid";
  */
 export type TodoState = "unfinished" | "completed" | "deleted";
 
-/**
- * A complete todo item as stored in the application.
- */
 export type NewToDoType = {
-  /** Unique identifier for the todo. */
   id: string;
-  /** Short title for display. */
   title: string;
-  /** Longer description; may be empty. */
   description: string;
-  /** Date range array, expected [start, end] as formatted strings. */
   dateRange: string[];
-  /** Current state of the todo. */
   state: TodoState;
 };
 

@@ -5,7 +5,6 @@ import { useTodos } from "../composables/useTodos";
 const KEY = "test-todos";
 
 beforeEach(() => {
-  // clean storage between tests
   localStorage.clear();
 });
 

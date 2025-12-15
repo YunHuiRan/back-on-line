@@ -1,7 +1,3 @@
-/**
- * Application entrypoint: create and mount the Vue app
- * Registers Element Plus and its icons globally.
- */
 import { createApp } from "vue";
 import "./style.css"
 import ElementPlus from 'element-plus'
@@ -12,7 +8,6 @@ import App from "@/App.vue";
 
 const app = createApp(App);
 app.use(ElementPlus)
-// Register all Element Plus icons globally (key -> component)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }

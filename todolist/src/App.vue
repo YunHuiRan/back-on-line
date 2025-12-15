@@ -151,25 +151,15 @@ import type { FormInstance, FormRules } from "element-plus";
 import { useDark } from "@vueuse/core";
 import { useTodos, type NewToDoType, type NewToDoForm, formatDate } from "./composables/useTodos";
 
-/** Reactive boolean driven by `@vueuse/core` dark-mode helper. */
 const isDark = useDark();
-/** Local toggle mirror used by the switch control. */
 const toggleDark = ref(isDark.value);
-/**
- * Toggle the global dark mode flag.
- * This flips `isDark.value` which is shared with `useDark()`.
- */
 function toggleDarkMode() {
   isDark.value = !isDark.value;
 }
 
-/** Composable exposing the todo list and helpers. */
 const { toDoList, addTodo, completeTodo, deleteTodo } = useTodos();
-/** Drawer visibility. */
 const drawer = ref(false);
-/** Reference to the Element Plus form instance for validation/control. */
 const ruleFormRef = ref<FormInstance>();
-/** Form model bound to the New ToDo drawer. */
 const ruleForm = reactive<NewToDoForm>({
   title: "",
   description: "",
@@ -177,7 +167,6 @@ const ruleForm = reactive<NewToDoForm>({
 });
 
 
-/** Form validation rules used by `ruleFormRef`. */
 const rules = reactive<FormRules<NewToDoType>>({
   title: [
     { required: true, message: "Please input title", trigger: "blur" },
@@ -197,10 +186,6 @@ const rules = reactive<FormRules<NewToDoType>>({
   ],
 });
 
-/**
- * Validate and submit the form, adding a todo if valid.
- * Closes the drawer and resets the form when submission succeeds.
- */
 function submitForm() {
   if (!ruleFormRef) return;
   ruleFormRef.value?.validate((valid) => {
@@ -213,7 +198,6 @@ function submitForm() {
   });
 }
 
-/** Reset the form fields to their initial values. */
 function resetForm() {
   ruleFormRef.value?.resetFields();
 }
