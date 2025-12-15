@@ -85,29 +85,48 @@
       <!-- list -->
       <div class="flex flex-col w-full h-full gap-y-2 scroll-auto">
         <TransitionGroup name="list" tag="div" class="relative">
-          <el-card v-for="item in toDoList" :key="item" class="w-full h-[150px] mb-2">
+          <el-card
+            v-for="todo in toDoList"
+            :key="todo"
+            class="w-full h-[150px] mb-2 relative"
+            :style="{ opacity: todo.state === 'unfinished' ? 1 : 0.5 }"
+          >
+            <!-- completed todo overlay -->
+            <div
+              v-if="todo.state === 'completed'"
+              class="absolute top-0 left-0 w-full h-full box-border bg-(--el-green) opacity-30"
+            ></div>
+            <!-- deleted todo overlay -->
+            <div
+              v-if="todo.state === 'deleted'"
+              class="absolute top-0 left-0 w-full h-full box-border bg-(--el-red) opacity-30"
+            ></div>
+
             <div class="w-full h-full flex flex-row gap-x-4">
               <div class="w-4/5 h-full">
                 <!-- title -->
                 <h1>
-                  {{ item.title }}
+                  {{ todo.title }}
                 </h1>
                 <!-- date -->
-                <span>截止日期：{{ formattedData(item.dateRange[1]!) }}</span>
+                <span>截止日期：{{ formattedData(todo.dateRange[1]!) }}</span>
                 <!-- description -->
-                <span class="line-clamp-2">{{ item.description }} </span>
+                <span class="line-clamp-2">{{ todo.description }} </span>
               </div>
 
-              <div class="w-1/5 h-full flex justify-center items-center">
+              <div
+                v-if="todo.state === 'unfinished'"
+                class="w-1/5 h-full flex justify-center items-center"
+              >
                 <button
-                  class="w-1/2 h-full flex justify-center items-center rounded-lg text-lg transition-all ease-in-out hover:cursor-pointer hover:bg-[#67C23A] hover:w-full hover:text-3xl"
-                  @click="completeToDo(item)"
+                  class="w-1/2 h-full flex justify-center items-center rounded-lg text-lg transition-all ease-in-out hover:cursor-pointer hover:bg-(--el-green) hover:w-full hover:text-3xl"
+                  @click="completeToDo(todo)"
                 >
                   <el-icon><Check /></el-icon>
                 </button>
                 <button
-                  class="w-1/2 h-full flex justify-center items-center rounded-lg text-lg transition-all ease-in-out hover:cursor-pointer hover:bg-[#F56C6C] hover:w-full hover:text-3xl"
-                  @click="deleteToDo(item)"
+                  class="w-1/2 h-full flex justify-center items-center rounded-lg text-lg transition-all ease-in-out hover:cursor-pointer hover:bg-(--el-red) hover:w-full hover:text-3xl"
+                  @click="deleteToDo(todo)"
                 >
                   <el-icon><Close /></el-icon>
                 </button>
@@ -138,28 +157,29 @@ function formattedData(date: string) {
   return useDateFormat(date, "YYYY-MM-DD HH:mm:ss");
 }
 
-const getToDoList = () => [
+const toDoList = ref<NewToDoType[]>([
   {
     title: "Sample To-Do",
     description:
       "This is a sample to-do item. You can add your own to-do items using the form.",
     dateRange: ["2024-06-01 10:00:00", "2024-06-05 18:00:00"],
+    state: "unfinished",
   },
   {
     title: "Another To-Do",
     description:
       "Remember to complete your tasks on time! This is another example of a to-do item.",
     dateRange: ["2024-06-10 09:00:00", "2024-06-15 17:00:00"],
+    state: "unfinished",
   },
   {
     title: "Meeting Preparation",
     description:
       "Prepare for the upcoming meeting by reviewing the agenda and gathering necessary materials.",
     dateRange: ["2024-06-20 14:00:00", "2024-06-20 15:00:00"],
+    state: "unfinished",
   },
-];
-
-const toDoList = ref<NewToDoType[]>(getToDoList());
+]);
 const drawer = ref(false);
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive<NewToDoType>({
@@ -172,6 +192,7 @@ type NewToDoType = {
   title: string;
   description: string;
   dateRange: Array<string>;
+  state?: "unfinished" | "completed" | "deleted";
 };
 
 const rules = reactive<FormRules<NewToDoType>>({
@@ -198,7 +219,7 @@ function submitForm() {
   ruleFormRef.value?.validate((valid) => {
     if (valid) {
       console.log("submit!");
-      toDoList.value.push({ ...ruleForm });
+      toDoList.value.push({ ...ruleForm, state: "unfinished" });
       drawer.value = false;
       resetForm();
     } else {
@@ -214,14 +235,22 @@ function resetForm() {
 function completeToDo(item: any) {
   const i = toDoList.value.indexOf(item);
   if (i > -1) {
-    toDoList.value.splice(i, 1);
+    toDoList.value[i]!.state = "completed";
+    toDoList.value = toDoList.value.sort((a, b) => {
+      const stateOrder = { unfinished: 0, completed: 1, deleted: 2 };
+      return stateOrder[a.state!] - stateOrder[b.state!];
+    });
   }
 }
 
 function deleteToDo(item: any) {
   const i = toDoList.value.indexOf(item);
   if (i > -1) {
-    toDoList.value.splice(i, 1);
+    toDoList.value[i]!.state = "deleted";
+    toDoList.value = toDoList.value.sort((a, b) => {
+      const stateOrder = { unfinished: 0, completed: 1, deleted: 2 };
+      return stateOrder[a.state!] - stateOrder[b.state!];
+    });
   }
 }
 </script>
@@ -230,13 +259,14 @@ function deleteToDo(item: any) {
 .list-move,
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.3s cubic-bezier(0.5, 0, 0.1, 1);
+  transition: all 0.3s ease-in-out;
 }
 
 .list-enter-from,
 .list-leave-to {
   opacity: 0;
-  transform: scaleY(0.01) translate(20px, 0);
+  transform: translate(20px, 0);
+  height: 0px;
 }
 
 .list-leave-active {
