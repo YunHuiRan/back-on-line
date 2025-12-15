@@ -83,10 +83,36 @@
       </template>
 
       <!-- list -->
-      <div class="flex flex-col w-full h-full gap-y-2">
-        <TransitionGroup name="list">
-          <el-card v-for="(i, index) in toDoList" :key="index" class="w-full h-[100px]">
-            {{ i.title }}
+      <div class="flex flex-col w-full h-full gap-y-2 scroll-auto">
+        <TransitionGroup name="list" tag="div" class="relative">
+          <el-card v-for="item in toDoList" :key="item" class="w-full h-[150px] mb-2">
+            <div class="w-full h-full flex flex-row gap-x-4">
+              <div class="w-4/5 h-full">
+                <!-- title -->
+                <h1>
+                  {{ item.title }}
+                </h1>
+                <!-- date -->
+                <span>截止日期：{{ formattedData(item.dateRange[1]!) }}</span>
+                <!-- description -->
+                <span class="line-clamp-2">{{ item.description }} </span>
+              </div>
+
+              <div class="w-1/5 h-full flex justify-center items-center">
+                <button
+                  class="w-1/2 h-full flex justify-center items-center rounded-lg text-lg transition-all ease-in-out hover:cursor-pointer hover:bg-[#67C23A] hover:w-full hover:text-3xl"
+                  @click="completeToDo(item)"
+                >
+                  <el-icon><Check /></el-icon>
+                </button>
+                <button
+                  class="w-1/2 h-full flex justify-center items-center rounded-lg text-lg transition-all ease-in-out hover:cursor-pointer hover:bg-[#F56C6C] hover:w-full hover:text-3xl"
+                  @click="deleteToDo(item)"
+                >
+                  <el-icon><Close /></el-icon>
+                </button>
+              </div>
+            </div>
           </el-card>
         </TransitionGroup>
 
@@ -101,15 +127,39 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
-import { useDark } from "@vueuse/core";
+import { useDark, useDateFormat } from "@vueuse/core";
 
 const isDark = useDark();
 const toggleDark = ref(isDark.value);
 function toggleDarkMode() {
   isDark.value = !isDark.value;
 }
+function formattedData(date: string) {
+  return useDateFormat(date, "YYYY-MM-DD HH:mm:ss");
+}
 
-const toDoList = ref<NewToDoType[]>([]);
+const getToDoList = () => [
+  {
+    title: "Sample To-Do",
+    description:
+      "This is a sample to-do item. You can add your own to-do items using the form.",
+    dateRange: ["2024-06-01 10:00:00", "2024-06-05 18:00:00"],
+  },
+  {
+    title: "Another To-Do",
+    description:
+      "Remember to complete your tasks on time! This is another example of a to-do item.",
+    dateRange: ["2024-06-10 09:00:00", "2024-06-15 17:00:00"],
+  },
+  {
+    title: "Meeting Preparation",
+    description:
+      "Prepare for the upcoming meeting by reviewing the agenda and gathering necessary materials.",
+    dateRange: ["2024-06-20 14:00:00", "2024-06-20 15:00:00"],
+  },
+];
+
+const toDoList = ref<NewToDoType[]>(getToDoList());
 const drawer = ref(false);
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive<NewToDoType>({
@@ -160,16 +210,36 @@ function submitForm() {
 function resetForm() {
   ruleFormRef.value?.resetFields();
 }
+
+function completeToDo(item: any) {
+  const i = toDoList.value.indexOf(item);
+  if (i > -1) {
+    toDoList.value.splice(i, 1);
+  }
+}
+
+function deleteToDo(item: any) {
+  const i = toDoList.value.indexOf(item);
+  if (i > -1) {
+    toDoList.value.splice(i, 1);
+  }
+}
 </script>
 
 <style scoped>
+.list-move,
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.5, 0, 0.1, 1);
 }
+
 .list-enter-from,
 .list-leave-to {
   opacity: 0;
-  transform: translateX(20px);
+  transform: scaleY(0.01) translate(20px, 0);
+}
+
+.list-leave-active {
+  position: absolute;
 }
 </style>
