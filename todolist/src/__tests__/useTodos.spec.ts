@@ -1,9 +1,11 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { useTodos } from "../composables/useTodos";
 
+/** Storage key used for tests to isolate data. */
 const KEY = "test-todos";
 
 beforeEach(() => {
+  // clean storage between tests
   localStorage.clear();
 });
 
@@ -11,6 +13,7 @@ describe("useTodos composable", () => {
   it("adds a todo and sets default state", () => {
     const { toDoList, addTodo } = useTodos({ storageKey: KEY, storage: localStorage, initial: [] });
     const item = addTodo({ title: "t1", description: "d1", dateRange: ["2024-01-01"] });
+    // created item should include an id and default state
     expect(item.id).toBeDefined();
     expect(item.state).toBe("unfinished");
     expect(toDoList.value.some((t) => t.id === item.id)).toBe(true);
