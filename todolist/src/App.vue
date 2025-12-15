@@ -106,14 +106,7 @@ import { useDark } from "@vueuse/core";
 const isDark = useDark();
 const toggleDark = ref(isDark.value);
 function toggleDarkMode() {
-  // add a temporary class to enable smooth transitions for theme properties
-  document.documentElement.classList.add("theme-transition");
-  // apply the theme immediately (properties will transition because of the class)
-  isDark.value = toggleDark.value;
-  // remove the helper class after the transition finishes
-  window.setTimeout(() => {
-    document.documentElement.classList.remove("theme-transition");
-  }, 300);
+  isDark.value = !isDark.value;
 }
 
 const toDoList = ref<NewToDoType[]>([]);

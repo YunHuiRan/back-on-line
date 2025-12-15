@@ -1,15 +1,1 @@
 @import "tailwindcss";
-
-/* Only enable theme-related transitions while toggling theme to avoid
-   unnecessary transitions on every property change and for better performance */
-.theme-transition *,
-.theme-transition *::before,
-.theme-transition *::after {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease,
-    box-shadow 0.3s ease, fill 0.3s ease, stroke 0.3s ease;
-}
-
-/* A small fallback for main containers */
-html, body, #app, main, .el-card {
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
