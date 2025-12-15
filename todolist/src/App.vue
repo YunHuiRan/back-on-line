@@ -2,10 +2,10 @@
   <main class="flex justify-center items-start">
     <el-card
       shadow="always"
-      class="max-w-[1200px] w-[70%] min-w-[500px] min-h-[500px] m-6 p-6 flex flex-col relative"
+      class="max-w-[1200px] w-[70%] min-w-[500px] min-h-[500px] m-6 p-6"
     >
       <template #header>
-        <div class="relative flex justify-center">
+        <div class="relative flex justify-center items-center">
           <el-affix :offset="0">
             <el-button
               type="primary"
@@ -16,6 +16,17 @@
             >
               add to-do
             </el-button>
+
+            <div class="absolute top-0 right-0">
+              <el-switch v-model="toggleDark" @change="toggleDarkMode">
+                <template #active-action>
+                  <el-icon><Moon /></el-icon>
+                </template>
+                <template #inactive-action>
+                  <el-icon><Sunny /></el-icon>
+                </template>
+              </el-switch>
+            </div>
 
             <!-- drawer -->
             <el-drawer
@@ -90,10 +101,20 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
-import { useDark, useToggle } from "@vueuse/core";
+import { useDark } from "@vueuse/core";
 
 const isDark = useDark();
-const toggleDark = useToggle(isDark);
+const toggleDark = ref(isDark.value);
+function toggleDarkMode() {
+  // add a temporary class to enable smooth transitions for theme properties
+  document.documentElement.classList.add("theme-transition");
+  // apply the theme immediately (properties will transition because of the class)
+  isDark.value = toggleDark.value;
+  // remove the helper class after the transition finishes
+  window.setTimeout(() => {
+    document.documentElement.classList.remove("theme-transition");
+  }, 300);
+}
 
 const toDoList = ref<NewToDoType[]>([]);
 const drawer = ref(false);
