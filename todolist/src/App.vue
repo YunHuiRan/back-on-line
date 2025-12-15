@@ -7,7 +7,13 @@
       <template #header>
         <div class="relative flex justify-center">
           <el-affix :offset="0">
-            <el-button type="primary" size="large" ref="addBtnRef" @click="drawer = true">
+            <el-button
+              type="primary"
+              plain
+              size="large"
+              ref="addBtnRef"
+              @click="drawer = true"
+            >
               add to-do
             </el-button>
 
@@ -67,9 +73,11 @@
 
       <!-- list -->
       <div class="flex flex-col w-full h-full gap-y-2">
-        <el-card v-for="(i, index) in toDoList" :index="index" class="w-full h-[100px]">
-          {{ i.title }}
-        </el-card>
+        <TransitionGroup name="list">
+          <el-card v-for="(i, index) in toDoList" :key="index" class="w-full h-[100px]">
+            {{ i.title }}
+          </el-card>
+        </TransitionGroup>
 
         <el-card v-if="toDoList.length === 0" class="w-full h-[100px] text-center">
           please add todo
@@ -82,6 +90,10 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
+import { useDark, useToggle } from "@vueuse/core";
+
+const isDark = useDark();
+const toggleDark = useToggle(isDark);
 
 const toDoList = ref<NewToDoType[]>([]);
 const drawer = ref(false);
@@ -136,4 +148,14 @@ function resetForm() {
 }
 </script>
 
-<style></style>
+<style scoped>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+</style>
