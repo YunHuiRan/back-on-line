@@ -16,13 +16,14 @@ export type NewToDoType = {
   description: string;
   dateRange: string[];
   state: TodoState;
+  showDetail: boolean;
 };
 
 /**
  * Shape of the form used to create a new todo.
  * The `id` and `state` are filled-in by `addTodo` on creation.
  */
-export type NewToDoForm = Omit<NewToDoType, "id" | "state">;
+export type NewToDoForm = Omit<NewToDoType, "id" | "state" | 'showDetail'>;
 
 /**
  * Format a date string into `YYYY-MM-DD hh:mm:ss` if valid.
@@ -59,6 +60,7 @@ export function useTodos(options?: { storageKey?: string; storage?: Storage; ini
         "This is a sample to-do item. You can add your own to-do items using the form.",
       dateRange: ["2024-06-01 10:00:00", "2024-06-05 18:00:00"],
       state: "unfinished",
+      showDetail: false,
     },
   ]);
 
@@ -73,6 +75,7 @@ export function useTodos(options?: { storageKey?: string; storage?: Storage; ini
         description: t.description || "",
         dateRange: t.dateRange || [],
         state: t.state || "unfinished",
+        showDetail: t.showDetail || false,
       }));
     }
   } catch (e) {
@@ -111,7 +114,7 @@ export function useTodos(options?: { storageKey?: string; storage?: Storage; ini
    * @returns The created `NewToDoType` with filled `id` and `state`
    */
   function addTodo(form: NewToDoForm) {
-    const item: NewToDoType = { id: uuidv4(), ...form, state: "unfinished" };
+    const item: NewToDoType = { id: uuidv4(), ...form, state: "unfinished", showDetail: false };
     toDoList.value.push(item);
     sortList();
     save();

@@ -116,8 +116,13 @@
                 class="absolute top-0 left-0 w-full h-full box-border bg-(--el-red) opacity-30"
               ></div>
 
+              <!-- main todos -->
               <div class="w-full h-full flex flex-row gap-x-4">
-                <div class="w-4/5 h-full">
+                <div
+                  class="w-4/5 h-full hover:cursor-pointer"
+                  @click="showDetail(todo)"
+                  aria-label="Show todo detail"
+                >
                   <!-- title -->
                   <h1>
                     {{ todo.title }}
@@ -150,6 +155,23 @@
                   </button>
                 </div>
               </div>
+
+              <!-- todo detail -->
+              <el-dialog v-model="todo.showDetail" :title="todo.title" width="800">
+                <p v-if="todo.description">
+                  <strong>{{ msgs.description }}:</strong>
+                </p>
+                <p v-if="todo.description.length" class="mb-4">
+                  {{ todo.description }}
+                </p>
+                <p>
+                  <strong>{{ msgs.dateRange }}:</strong>
+                </p>
+                <p>
+                  {{ formatDate(todo.dateRange[0]!) }} -
+                  {{ formatDate(todo.dateRange[1]!) }}
+                </p>
+              </el-dialog>
             </el-card>
           </TransitionGroup>
 
@@ -221,6 +243,10 @@ function submitForm() {
 
 function resetForm() {
   ruleFormRef.value?.resetFields();
+}
+
+function showDetail(todo: NewToDoType) {
+  todo.showDetail = true;
 }
 </script>
 
