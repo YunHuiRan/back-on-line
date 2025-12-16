@@ -7,7 +7,31 @@
       >
         <template #header>
           <div class="relative flex justify-center items-center">
-            <el-affix :offset="0">
+            <div class="absolute top-0 right-0 flex items-center gap-2">
+              <!-- Language  toggle -->
+              <el-select
+                v-model="lang"
+                size="small"
+                @change="setLang"
+                placeholder="Lang"
+                class="mr-2"
+                style="width: 90px"
+              >
+                <el-option label="中文" :value="'zh'" />
+                <el-option label="EN" :value="'en'" />
+              </el-select>
+
+              <!-- Theme toggle -->
+              <el-switch v-model="toggleDark" @change="toggleDarkMode">
+                <template #active-action>
+                  <el-icon><Moon /></el-icon>
+                </template>
+                <template #inactive-action>
+                  <el-icon><Sunny /></el-icon>
+                </template>
+              </el-switch>
+            </div>
+            <el-affix :offset="20">
               <el-button
                 type="primary"
                 plain
@@ -19,30 +43,7 @@
                 {{ msgs.addTodo }}
               </el-button>
 
-              <div class="absolute top-0 right-0 flex items-center gap-2">
-                <el-select
-                  v-model="lang"
-                  size="small"
-                  @change="setLang"
-                  placeholder="Lang"
-                  class="mr-2"
-                  style="width: 90px"
-                >
-                  <el-option label="中文" :value="'zh'" />
-                  <el-option label="EN" :value="'en'" />
-                </el-select>
-
-                <el-switch v-model="toggleDark" @change="toggleDarkMode">
-                  <template #active-action>
-                    <el-icon><Moon /></el-icon>
-                  </template>
-                  <template #inactive-action>
-                    <el-icon><Sunny /></el-icon>
-                  </template>
-                </el-switch>
-              </div>
-
-              <!-- drawer -->
+              <!-- Drawer -->
               <el-drawer
                 v-model="drawer"
                 direction="rtl"
@@ -96,7 +97,7 @@
           </div>
         </template>
 
-        <!-- list -->
+        <!-- todo list -->
         <div class="flex flex-col w-full h-full gap-y-2 scroll-auto">
           <TransitionGroup name="list" tag="div" class="relative">
             <el-card
