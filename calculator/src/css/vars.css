@@ -1,0 +1,15 @@
+:root {
+  /* container */
+  --container-bg-color: #e7e8ea;
+  --container-width: 35vw;
+  --container-height: 80vh;
+  --container-border-radius: 20px;
+  --result-display-height: 40%;
+  --button-display-height: 60%;
+
+  --regular-text-color: #111214;
+  --advanced-text-color: #6a6a6a;
+  --function-button-color: #d3d4d6;
+  --equals-button-color: #fd9338;
+  --button-border-color: #f9fafc;
+}
