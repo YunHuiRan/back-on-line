@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full grid grid-cols-4 p-2 gap-2">
+  <div class="w-full h-full grid grid-cols-5 p-2 gap-2">
     <button
       v-for="(i, index) in buttons"
       :key="index"
@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { regularButtons as buttons } from "@/constants/buttonValues";
+import { advancedButtons as buttons } from "@/constants/buttonValues";
 import { getButtonValueCategory } from "@/utils/getButtonValueCategory";
 </script>
 
@@ -22,8 +22,6 @@ import { getButtonValueCategory } from "@/utils/getButtonValueCategory";
   font-size: var(--font-size);
   border-radius: var(--button-radius);
   border: 1px solid var(--button-border-color);
-  min-width: 80px;
-  min-height: 80px;
 }
 
 .base-button:hover {
@@ -43,6 +41,8 @@ import { getButtonValueCategory } from "@/utils/getButtonValueCategory";
 }
 
 .advanced-buttons {
+  color: var(--advanced-text-color);
+  background-color: var(--advanced-button-bg-color);
 }
 
 .equal-buttons {

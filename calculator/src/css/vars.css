@@ -4,12 +4,14 @@
 
 :root {
   --container-bg-color: #e7e8ea;
-  --container-width: 400px;
-  --container-height: 80vh;
+
   --container-min-width: 400px;
-  --container-max-width: 800px;
+  --container-max-width: 600px;
+
+  --container-height: 80vh;
   --container-min-height: 800px;
   --container-max-height: 800px;
+
   --container-border-radius: 20px;
 
   --font-size: 1.3rem;
@@ -18,6 +20,7 @@
   --button-display-height: 60%;
 
   --button-radius: 100%;
+  --button-border-color: #f9fafc;
 
   --regular-button-bg-color: #ebebeb;
   --regular-text-color: #111214;
@@ -25,18 +28,17 @@
   --function-button-bg-color: #d3d4d6;
   --function-text-color: #111214;
 
-  --advanced-text-color: #6a6a6a;
+  --advanced-text-color: #6d6d6d;
+  --advanced-button-bg-color: #e9e9e9;
 
   --equals-button-bg-color: #fd9338;
   --equals-text-color: #fffeec;
-
-  --button-border-color: #f9fafc;
 }
 
 @media (min-width: 768px) {
   :root {
     --container-width: 600px;
-    --button-radius: 10%;
+    --button-radius: 20px;
     --font-size: 1.5rem;
   }
 }

@@ -1,11 +1,13 @@
 <template>
   <div class="w-full h-(--button-display-height)">
-    <ButtonsRegular />
+    <buttonsAdvanced />
+    <!-- <ButtonsRegular /> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import ButtonsRegular from "./ButtonsRegular.vue";
+import buttonsAdvanced from "./ButtonsAdvanced.vue";
 </script>
 
 <style scoped>
