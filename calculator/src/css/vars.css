@@ -1,15 +1,42 @@
+* {
+  transition: all 0.1s ease-in-out;
+}
+
 :root {
-  /* container */
   --container-bg-color: #e7e8ea;
-  --container-width: 35vw;
+  --container-width: 400px;
   --container-height: 80vh;
+  --container-min-width: 400px;
+  --container-max-width: 800px;
+  --container-min-height: 800px;
+  --container-max-height: 800px;
   --container-border-radius: 20px;
+
+  --font-size: 1.3rem;
+
   --result-display-height: 40%;
   --button-display-height: 60%;
 
+  --button-radius: 100%;
+
+  --regular-button-bg-color: #ebebeb;
   --regular-text-color: #111214;
+
+  --function-button-bg-color: #d3d4d6;
+  --function-text-color: #111214;
+
   --advanced-text-color: #6a6a6a;
-  --function-button-color: #d3d4d6;
-  --equals-button-color: #fd9338;
+
+  --equals-button-bg-color: #fd9338;
+  --equals-text-color: #fffeec;
+
   --button-border-color: #f9fafc;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --container-width: 600px;
+    --button-radius: 10%;
+    --font-size: 1.5rem;
+  }
 }
