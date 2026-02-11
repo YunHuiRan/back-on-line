@@ -22,6 +22,7 @@ import { getButtonValueCategory } from "@/utils/getButtonValueCategory";
   font-size: var(--font-size);
   border-radius: var(--button-radius);
   border: 1px solid var(--button-border-color);
+   aspect-ratio: 0.5 / 0.5;
 }
 
 .base-button:hover {

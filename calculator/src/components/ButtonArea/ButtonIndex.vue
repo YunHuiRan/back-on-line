@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-(--button-display-height)">
-    <buttonsAdvanced />
-    <!-- <ButtonsRegular /> -->
+    <!-- <buttonsAdvanced /> -->
+    <ButtonsRegular />
   </div>
 </template>
 

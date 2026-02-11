@@ -16,8 +16,8 @@
 
   --font-size: 1.3rem;
 
-  --result-display-height: 40%;
-  --button-display-height: 60%;
+  --result-display-height: 35%;
+  --button-display-height: 65%;
 
   --button-radius: 100%;
   --button-border-color: #f9fafc;
@@ -40,5 +40,9 @@
     --container-width: 600px;
     --button-radius: 20px;
     --font-size: 1.5rem;
+  }
+
+  .base-button {
+    aspect-ratio: unset !important;
   }
 }
