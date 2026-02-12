@@ -39,9 +39,11 @@ function toggleCalculatorMode() {
   startCover.style.left = toggleButtonRect.left + "px";
   startCover.style.width = toggleButtonRect.width + "px";
   startCover.style.height = toggleButtonRect.height + "px";
-  startCover.style.borderRadius = getComputedStyle(animationInstanceStore.$state.toggleButton!).getPropertyValue('border-radius')
+  startCover.style.borderRadius = getComputedStyle(
+    animationInstanceStore.$state.toggleButton!,
+  ).getPropertyValue("border-radius");
 
-  startCover.classList = 'transition-cover shadow-xl'
+  startCover.classList = "transition-cover shadow-xl";
 
   document.body.appendChild(startCover);
 
@@ -52,12 +54,10 @@ function toggleCalculatorMode() {
   endCover.style.left = buttonAreaRect.left + "px";
   endCover.style.width = buttonAreaRect.width + "px";
   endCover.style.height = buttonAreaRect.height + "px";
-  endCover.style.borderRadius = getComputedStyle(animationInstanceStore.$state.buttonArea!).getPropertyValue('border-radius')
-  endCover.classList = 'transition-cover'
-
-  console.log(endCover.style.borderRadius);
-  console.log(startCover.style.borderRadius);
-
+  endCover.style.borderRadius = getComputedStyle(
+    animationInstanceStore.$state.buttonArea!,
+  ).getPropertyValue("border-radius");
+  endCover.classList = "transition-cover";
 
   document.body.appendChild(endCover);
 
@@ -68,6 +68,11 @@ function toggleCalculatorMode() {
     scaleX: buttonAreaRect.width / toggleButtonRect.width,
     scaleY: buttonAreaRect.height / toggleButtonRect.height,
     borderRadius: "5%",
+    opacity: {
+      from: 0.5,
+
+      to: 1,
+    },
     duration: 500,
     transformOrigin: "top left",
   });
@@ -77,6 +82,10 @@ function toggleCalculatorMode() {
     translateY: toggleButtonRect.top - buttonAreaRect.top,
     scaleX: toggleButtonRect.width / buttonAreaRect.width,
     scaleY: toggleButtonRect.height / buttonAreaRect.height,
+    opacity: {
+      from: 0,
+      to: 1,
+    },
     duration: 500,
     transformOrigin: "top left",
   });
