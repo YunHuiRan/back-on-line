@@ -36,7 +36,7 @@ function calculateGridCols(): string {
 
 onMounted(() => {
   if (animationEndParent.value) {
-    animationInstanceStore.setAnimationInstance(animationEndParent.value, "endParent");
+    animationInstanceStore.setAnimationInstance(animationEndParent.value, "buttonArea");
   }
 });
 </script>
