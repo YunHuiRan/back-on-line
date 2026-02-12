@@ -1,6 +1,7 @@
 * {
   overflow: hidden;
-  transition: all 0.1s ease-in-out;
+  /* TODO transition */
+  /* transition: all 0.1s ease-in-out; */
 }
 
 body {
@@ -21,7 +22,7 @@ button:hover {
   font-size: var(--font-size);
   border-radius: var(--button-radius);
   border: 1px solid var(--button-border-color);
-  aspect-ratio: 0.5 / 0.5;
+  aspect-ratio: 1 / 1;
 }
 
 .base-button:hover {
@@ -47,4 +48,8 @@ button:hover {
 .equal-buttons {
   background-color: var(--equals-button-bg-color);
   color: var(--equals-text-color);
+}
+
+.transition-cover {
+  background-color: #cfd3dc;
 }
