@@ -1,11 +1,8 @@
-* {
-  transition: all 0.1s ease-in-out;
-}
-
 :root {
   --container-bg-color: #e7e8ea;
 
-  --container-min-width: 400px;
+  --container-width: 420px;
+  --container-min-width: 420px;
   --container-max-width: 600px;
 
   --container-height: 80vh;

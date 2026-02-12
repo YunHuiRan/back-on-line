@@ -2,8 +2,10 @@
   <div class="w-screen h-screen flex-center">
     <!-- calculator container -->
     <div class="container">
+      <ContrlIndex />
+
       <!-- result display -->
-      <ResultDisplay />
+      <ResultArea />
 
       <!-- buttons -->
       <ButtonsArea />
@@ -12,12 +14,14 @@
 </template>
 
 <script setup lang="ts">
-import ResultDisplay from "@/components/ResultArea.vue";
+import ContrlIndex from "./components/ContrlArea/ContrlIndex.vue";
+import ResultArea from "@/components/ResultArea.vue";
 import ButtonsArea from "@/components/ButtonArea/ButtonIndex.vue";
 </script>
 
 <style scoped>
 .container {
+  position: relative;
   width: var(--container-width);
   min-width: var(--container-min-width);
   max-width: var(--container-max-width);

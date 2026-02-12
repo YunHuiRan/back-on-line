@@ -1,13 +1,50 @@
 * {
   overflow: hidden;
+  transition: all 0.1s ease-in-out;
 }
 
 body {
   background-color: rgb(98, 98, 98);
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 .flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.base-button {
+  font-size: var(--font-size);
+  border-radius: var(--button-radius);
+  border: 1px solid var(--button-border-color);
+  aspect-ratio: 0.5 / 0.5;
+}
+
+.base-button:hover {
+  filter: brightness(90%);
+}
+
+.regular-buttons {
+  background-color: var(--regular-button-bg-color);
+  color: var(--regular-text-color);
+}
+
+.function-buttons {
+  background-color: var(--function-button-bg-color);
+  color: var(--function-text-color);
+  font-weight: 500;
+}
+
+.advanced-buttons {
+  color: var(--advanced-text-color);
+  background-color: var(--advanced-button-bg-color);
+}
+
+.equal-buttons {
+  background-color: var(--equals-button-bg-color);
+  color: var(--equals-text-color);
 }
