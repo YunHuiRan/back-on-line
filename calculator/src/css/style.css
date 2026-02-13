@@ -52,12 +52,3 @@ button:hover {
 .transition-cover {
   background-color: #cfd3dc;
 }
-
-@keyframes transition-cover-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
