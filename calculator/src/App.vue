@@ -22,6 +22,7 @@ import ButtonsArea from "@/components/ButtonArea/ButtonIndex.vue";
 <style scoped>
 .container {
   position: relative;
+
   width: var(--container-width);
   min-width: var(--container-min-width);
   max-width: var(--container-max-width);
@@ -32,5 +33,7 @@ import ButtonsArea from "@/components/ButtonArea/ButtonIndex.vue";
 
   background-color: var(--container-bg-color);
   border-radius: var(--container-border-radius);
+
+  /* overflow: hidden; */
 }
 </style>

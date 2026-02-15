@@ -1,5 +1,5 @@
 * {
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: width 0.1s ease-in-out;
 }
 
@@ -51,4 +51,5 @@ button:hover {
 
 .transition-cover {
   background-color: #cfd3dc;
+  border-radius: 5%;
 }

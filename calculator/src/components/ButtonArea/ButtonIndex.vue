@@ -1,8 +1,13 @@
 <template>
   <div class="button-display" ref="buttonArea">
     <div class="w-full h-full grid p-2 gap-2" :class="calculateGridCols()">
-      <button v-for="(i, index) in getcurrentButtons()" :key="index" :value="i" class="base-button"
-        :class="`${getButtonValueCategory(i)}-buttons`">
+      <button
+        v-for="(i, index) in getcurrentButtons()"
+        :key="index"
+        :value="i"
+        class="base-button"
+        :class="`${getButtonValueCategory(i)}-buttons`"
+      >
         {{ i }}
       </button>
     </div>
@@ -40,6 +45,6 @@ onMounted(() => {
 .button-display {
   width: 100%;
   height: var(--button-display-height);
-  border-radius: var(--container-border-radius)
+  border-radius: var(--container-border-radius);
 }
 </style>

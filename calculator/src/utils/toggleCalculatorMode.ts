@@ -25,25 +25,85 @@ export function toggleCalculatorMode() {
   const toggleCover = createCover(toggleBtnRect);
   const areaCover = createCover(buttonAreaRect);
 
-  const common = { duration: 500, transformOrigin: "top left" } as const;
+  const common = { transformOrigin: "top left" } as const;
+
+  if (!toggleCover || !areaCover) return;
 
   animate(toggleCover, {
-    translateX: buttonAreaRect.left - toggleBtnRect.left,
-    translateY: buttonAreaRect.top - toggleBtnRect.top,
-    scaleX: buttonAreaRect.width / toggleBtnRect.width,
-    scaleY: buttonAreaRect.height / toggleBtnRect.height,
-    opacity: [0.5, 1],
     ...common,
-    // complete: () => toggleCover.remove(),
+    opacity: [
+      {
+        from: 0,
+        to: 1,
+        duration: 200,
+        delay: 0,
+      },
+      {
+        from: 1,
+        to: 0,
+        duration: 200,
+        delay: 500,
+      },
+    ],
+    translateX: {
+      to: buttonAreaRect.left - toggleBtnRect.left,
+      duration: 400,
+      delay: 100,
+    },
+    translateY: {
+      to: buttonAreaRect.top - toggleBtnRect.top,
+      duration: 400,
+      delay: 100,
+    },
+    scaleX: {
+      to: buttonAreaRect.width / toggleBtnRect.width,
+      duration: 400,
+      delay: 100,
+    },
+    scaleY: {
+      to: buttonAreaRect.height / toggleBtnRect.height,
+      duration: 400,
+      delay: 100,
+    },
+    onComplete: () => toggleCover.remove(),
   });
 
   animate(areaCover, {
-    translateX: toggleBtnRect.left - buttonAreaRect.left,
-    translateY: toggleBtnRect.top - buttonAreaRect.top,
-    scaleX: toggleBtnRect.width / buttonAreaRect.width,
-    scaleY: toggleBtnRect.height / buttonAreaRect.height,
-    opacity: [0, 1],
     ...common,
-    // complete: () => areaCover.remove(),
+    opacity: [
+      {
+        from: 0,
+        to: 1,
+        duration: 200,
+        delay: 0,
+      },
+      {
+        from: 1,
+        to: 0,
+        duration: 200,
+        delay: 500,
+      },
+    ],
+    translateX: {
+      to: toggleBtnRect.left - buttonAreaRect.left,
+      duration: 400,
+      delay: 100,
+    },
+    translateY: {
+      to: toggleBtnRect.top - buttonAreaRect.top,
+      duration: 400,
+      delay: 100,
+    },
+    scaleX: {
+      to: toggleBtnRect.width / buttonAreaRect.width,
+      duration: 400,
+      delay: 100,
+    },
+    scaleY: {
+      to: toggleBtnRect.height / buttonAreaRect.height,
+      duration: 400,
+      delay: 100,
+    },
+    onComplete: () => areaCover.remove(),
   });
 }
