@@ -1,8 +1,15 @@
 import { userAnimationInstance } from "@/store/useAnimationInstanceStore";
+import { useCalculatorStore } from "@/store/useCalculatorStore";
 import { animate } from "animejs";
 
 export function toggleCalculatorMode() {
   const state = userAnimationInstance().$state;
+  const calculatorStore = useCalculatorStore();
+
+  const toggleBtnInstance = state.toggleButton;
+  const buttonAreaInstance = state.buttonArea;
+  if (!toggleBtnInstance || !buttonAreaInstance) return;
+
   const toggleBtnRect = state.toggleButton?.getBoundingClientRect();
   const buttonAreaRect = state.buttonArea?.getBoundingClientRect();
 
@@ -29,21 +36,32 @@ export function toggleCalculatorMode() {
 
   if (!toggleCover || !areaCover) return;
 
+  setTimeout(() => {
+    calculatorStore.toggleMode();
+  }, 300);
+
+  // Toggle button and button area fade out, then fade in after the cover animation completes
+
+  animate(toggleBtnInstance, {
+    opacity: [
+      { from: 1, to: 0, duration: 200, delay: 0 },
+      { from: 0, to: 1, duration: 200, delay: 500 },
+    ],
+  });
+
+  animate(buttonAreaInstance, {
+    opacity: [
+      { from: 1, to: 0, duration: 200, delay: 0 },
+      { from: 0, to: 1, duration: 200, delay: 500 },
+    ],
+  });
+
+  // Animate the covers to create a morphing effect between the toggle button and the button area
   animate(toggleCover, {
     ...common,
     opacity: [
-      {
-        from: 0,
-        to: 1,
-        duration: 200,
-        delay: 0,
-      },
-      {
-        from: 1,
-        to: 0,
-        duration: 200,
-        delay: 500,
-      },
+      { from: 0, to: 1, duration: 200, delay: 0 },
+      { from: 1, to: 0, duration: 200, delay: 500 },
     ],
     translateX: {
       to: buttonAreaRect.left - toggleBtnRect.left,
@@ -71,18 +89,8 @@ export function toggleCalculatorMode() {
   animate(areaCover, {
     ...common,
     opacity: [
-      {
-        from: 0,
-        to: 1,
-        duration: 200,
-        delay: 0,
-      },
-      {
-        from: 1,
-        to: 0,
-        duration: 200,
-        delay: 500,
-      },
+      { from: 0, to: 1, duration: 200, delay: 0 },
+      { from: 1, to: 0, duration: 200, delay: 500 },
     ],
     translateX: {
       to: toggleBtnRect.left - buttonAreaRect.left,
