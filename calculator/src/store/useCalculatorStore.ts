@@ -11,16 +11,20 @@ export const useCalculatorStore = defineStore("calculator", {
   }),
 
   actions: {
+    currentMode(): CalculatorState {
+      return this.mode;
+    },
+
     toggleMode() {
       this.mode = this.mode === "basic" ? "scientific" : "basic";
     },
 
-    toggleTheme() {
-      this.theme = this.theme === "light" ? "dark" : "light";
+    currentTheme(): ThemeState {
+      return this.theme;
     },
 
-    isDarkMode(): boolean {
-      return this.theme === "dark";
+    toggleTheme() {
+      this.theme = this.theme === "light" ? "dark" : "light";
     },
   },
 });
