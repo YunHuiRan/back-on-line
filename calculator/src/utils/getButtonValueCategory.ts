@@ -33,6 +33,5 @@ export function getButtonValueCategory(value: string): ButtonCategory {
       return category;
     }
   }
-  // TODO handle unknown category
   return "regular";
 }
