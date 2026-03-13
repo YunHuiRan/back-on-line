@@ -7,7 +7,7 @@
         :value="i"
         class="base-button"
         :class="`${getButtonValueCategory(i)}-buttons`"
-        @click="calculationFormulaStore.addToRawString(i)"
+        @click="handleClick(i)"
       >
         {{ i }}
       </button>
@@ -35,6 +35,10 @@ function getcurrentButtons(): readonly string[] {
 
 function calculateGridCols(): string {
   return calculatorStore.mode === "basic" ? "grid-cols-4" : "grid-cols-5";
+}
+
+function handleClick(char: string): void {
+  calculationFormulaStore.addToRawString(char);
 }
 
 onMounted(() => {

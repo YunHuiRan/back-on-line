@@ -13,20 +13,21 @@
 
   --font-size: 1.3rem;
 
-  --result-display-height: 35%;
   --button-display-height: 65%;
-
   --button-radius: 100%;
   --button-border-color: #f9fafc;
 
-  --regular-button-bg-color: #ebebeb;
+  --number-button-bg-color: #ebebeb;
+  --number-text-color: #111214;
+
+  --ac-button-bg-color: #d3d4d6;
+  --ac-text-color: #111214;
+
+  --regular-button-bg-color: #d3d4d6;
   --regular-text-color: #111214;
 
-  --function-button-bg-color: #d3d4d6;
-  --function-text-color: #111214;
-
-  --advanced-text-color: #6d6d6d;
-  --advanced-button-bg-color: #e9e9e9;
+  --advance-text-color: #6d6d6d;
+  --advance-button-bg-color: #e9e9e9;
 
   --equals-button-bg-color: #fd9338;
   --equals-text-color: #fffeec;

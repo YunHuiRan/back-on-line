@@ -8,7 +8,11 @@ export const useCalculationFormulaStore = defineStore("calculationFormula", {
   actions: {
     addToRawString(char: String): void {
       this.rawString += char;
-      console.log(`output->${this.rawString}`, char);
+    },
+
+    // ac
+    allClear(): void {
+      this.rawString = "";
     },
   },
 });

@@ -28,20 +28,26 @@ button:hover {
   filter: brightness(90%);
 }
 
-.regular-buttons {
-  background-color: var(--regular-button-bg-color);
-  color: var(--regular-text-color);
+.number-buttons {
+  background-color: var(--number-button-bg-color);
+  color: var(--number-text-color);
 }
 
-.function-buttons {
-  background-color: var(--function-button-bg-color);
-  color: var(--function-text-color);
+.ac-buttons {
+  background-color: var(--ac-button-bg-color);
+  color: var(--ac-text-color);
   font-weight: 500;
 }
 
-.advanced-buttons {
-  color: var(--advanced-text-color);
-  background-color: var(--advanced-button-bg-color);
+.regular-buttons {
+  background-color: var(--regular-button-bg-color);
+  color: var(--regular-text-color);
+  font-weight: 500;
+}
+
+.advance-buttons {
+  color: var(--advance-text-color);
+  background-color: var(--advance-button-bg-color);
 }
 
 .equal-buttons {

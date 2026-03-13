@@ -1,9 +1,10 @@
 type ButtonCategory = "regular" | "function" | "advanced" | "equal";
 
 export const BUTTON_VALUE_CATEGORIES = {
-  regular: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "00", "."],
-  function: ["ac", "%", "del", "÷", "X", "-", "+"],
-  advanced: [
+  number: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "00", "."],
+  ac: ["ac"],
+  regular: ["%", "del", "÷", "X", "-", "+"],
+  advance: [
     "sin",
     "cos",
     "tan",
