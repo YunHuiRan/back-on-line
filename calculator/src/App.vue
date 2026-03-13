@@ -2,10 +2,13 @@
   <div class="w-screen h-screen flex-center">
     <!-- calculator container -->
     <div class="container">
-      <ContrlIndex />
+      <div class="w-full h-[35%] relative">
+        <!-- control buttons -->
+        <ContrlIndex />
 
-      <!-- result display -->
-      <ResultArea />
+        <!-- display result -->
+        <ResultArea />
+      </div>
 
       <!-- buttons -->
       <ButtonsArea />

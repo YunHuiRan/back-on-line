@@ -7,6 +7,7 @@
         :value="i"
         class="base-button"
         :class="`${getButtonValueCategory(i)}-buttons`"
+        @click="calculationFormulaStore.addToRawString(i)"
       >
         {{ i }}
       </button>
@@ -20,9 +21,11 @@ import { regularButtons, advancedButtons } from "@/constants/buttonValues";
 import { getButtonValueCategory } from "@/utils/getButtonValueCategory";
 import { useCalculatorStore } from "@/store/useCalculatorStore";
 import { userAnimationInstance } from "@/store/useAnimationInstanceStore";
+import { useCalculationFormulaStore } from "@/store/useCalculationFormulaStore";
 
 const calculatorStore = useCalculatorStore();
 const animationInstanceStore = userAnimationInstance();
+const calculationFormulaStore = useCalculationFormulaStore();
 
 const buttonArea: Ref<HTMLElement | null> = ref(null);
 
