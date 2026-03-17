@@ -29,9 +29,11 @@
   --basic-operation-button-bg-color: #d3d4d6;
   --basic-operation-button-text-color: #111214;
 
-  /* TODO */
-  --advance-operation-text-color: #6d6d6d;
   --advance-operation-button-bg-color: #e9e9e9;
+  --advance-operation-text-color: #6d6d6d;
+
+  --selected-angle-unit-bg-color: #e9e9e9;
+  --selected-angle-unit-text-color: #fd9338;
 
   --equals-button-bg-color: #fd9338;
   --equals-text-color: #fffeec;

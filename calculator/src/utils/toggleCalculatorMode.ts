@@ -11,7 +11,10 @@ import { createTimeline } from "animejs";
  *
  * @returns {{ tl: import("animejs").AnimeTimelineInstance, finished: Promise<void> }}
  */
-function createTimelineAsync() {
+function createTimelineAsync(): {
+  tl: ReturnType<typeof createTimeline>;
+  finished: Promise<void>;
+} {
   let resolve: () => void;
 
   const finished = new Promise<void>((r) => {
@@ -25,6 +28,33 @@ function createTimelineAsync() {
   });
 
   return { tl, finished };
+}
+
+/**
+ * createCover
+ * -------------------
+ * Create a full-featured, fixed-position cover element that matches the
+ * provided DOMRect. The element is appended to `document.body` and returned
+ * to the caller so it can be animated and later removed.
+ *
+ * @param {DOMRect} rect - The rectangle (top/left/width/height) to match.
+ * @returns {HTMLDivElement} The newly created cover element.
+ */
+function createCover(rect: DOMRect): HTMLDivElement {
+  const el = document.createElement("div");
+  Object.assign(el.style, {
+    position: "fixed",
+    top: `${rect.top}px`,
+    left: `${rect.left}px`,
+    width: `${rect.width}px`,
+    height: `${rect.height}px`,
+    opacity: "0",
+    tanslateX: "0",
+    translateY: "0",
+  });
+  el.className = "transition-cover";
+  document.body.append(el);
+  return el;
 }
 
 /**
@@ -61,39 +91,9 @@ export async function toggleCalculatorMode(): Promise<boolean> {
 
   if (!toggleBtnRect || !buttonAreaRect) return false;
 
-  /**
-   * createCover
-   * Create a full-featured, fixed-position cover element that matches the
-   * provided DOMRect. The element is appended to `document.body` and returned
-   * to the caller so it can be animated and later removed.
-   *
-   * @param {DOMRect} rect - The rectangle (top/left/width/height) to match.
-   * @returns {HTMLDivElement} The newly created cover element.
-   */
-  function createCover(rect: DOMRect): HTMLDivElement {
-    const el = document.createElement("div");
-    Object.assign(el.style, {
-      position: "fixed",
-      top: `${rect.top}px`,
-      left: `${rect.left}px`,
-      width: `${rect.width}px`,
-      height: `${rect.height}px`,
-      opacity: "0",
-    });
-    el.className = "transition-cover";
-    document.body.append(el);
-    return el;
-  }
-
-  // Create the two covers used to morph between the toggle button and the
-  // button area. These are temporary DOM nodes that will be removed once the
-  // transition completes.
   const toggleCover = createCover(toggleBtnRect);
   const areaCover = createCover(buttonAreaRect);
 
-  // Common animation options reused for the morphing covers. `transformOrigin`
-  // is set to `top left` so translate/scale operate relative to the rect
-  // coordinates we computed above.
   const common = { transformOrigin: "top left" } as const;
   if (!toggleCover || !areaCover) return false;
 
@@ -101,9 +101,6 @@ export async function toggleCalculatorMode(): Promise<boolean> {
     fade: 200,
     morph: 500,
   } as const;
-
-  // Animation timing configuration (milliseconds) reused across the
-  // timeline to keep durations consistent and easy to adjust.
 
   const TIME_LINE_POINTS = {
     instanceFadeOut: 0, // start fading out the toggle button and button area
@@ -115,17 +112,40 @@ export async function toggleCalculatorMode(): Promise<boolean> {
     instanceFadeIn: 500, // fade the toggle button and button area after the morph
   } as const;
 
-  // Fade out the visible UI nodes (toggle button and button area)
   tl.add(
-    [toggleBtnInstance, buttonAreaInstance],
+    toggleBtnInstance,
     {
       opacity: [1, 0],
+      translateX: {
+        from: 0,
+        to: -5,
+      },
+      translateY: {
+        from: 0,
+        to: 5,
+      },
       duration: DURATIONS.fade,
     },
     TIME_LINE_POINTS.instanceFadeOut,
   );
 
-  // Fade in the covers so the morph layers appear underneath the fading UI.
+  tl.add(
+    buttonAreaInstance,
+    {
+      opacity: [1, 0],
+      translateX: {
+        from: 0,
+        to: 50,
+      },
+      translateY: {
+        from: 0,
+        to: -50,
+      },
+      duration: DURATIONS.fade,
+    },
+    TIME_LINE_POINTS.instanceFadeOut,
+  );
+
   tl.add(
     [toggleCover, areaCover],
     {
@@ -135,7 +155,6 @@ export async function toggleCalculatorMode(): Promise<boolean> {
     TIME_LINE_POINTS.coverFadeIn,
   );
 
-  // Morph the toggleCover to the button area's position+size.
   tl.add(
     toggleCover,
     {
@@ -149,9 +168,6 @@ export async function toggleCalculatorMode(): Promise<boolean> {
     TIME_LINE_POINTS.morphStart,
   );
 
-  // Simultaneously morph the areaCover back to the toggle button's
-  // coordinates so both covers animate as a pair, producing a convincing
-  // morphing effect.
   tl.add(
     areaCover,
     {
@@ -165,16 +181,10 @@ export async function toggleCalculatorMode(): Promise<boolean> {
     TIME_LINE_POINTS.morphStart,
   );
 
-  // At the configured timeline point call the store to toggle the calculator
-  // mode. Placing this call inside the timeline (instead of a separate
-  // setTimeout) guarantees the toggle occurs exactly when the timeline reaches
-  // this anchor, even if the animations are later adjusted.
   tl.call(() => {
     calculatorStore.toggleMode();
   }, TIME_LINE_POINTS.toggleMode);
 
-  // Fade the UI elements back in after the morph has completed so the new
-  // layout appears naturally.
   tl.add(
     [toggleBtnInstance, buttonAreaInstance],
     {
@@ -184,8 +194,6 @@ export async function toggleCalculatorMode(): Promise<boolean> {
     TIME_LINE_POINTS.fadeIn,
   );
 
-  // Fade out the covers and remove them in the onComplete callback. Removing
-  // the temporary DOM nodes here prevents leaving orphan elements in the DOM.
   tl.add(
     [toggleCover, areaCover],
     {
@@ -203,8 +211,12 @@ export async function toggleCalculatorMode(): Promise<boolean> {
     toggleBtnInstance,
     {
       opacity: [0, 1],
+      translateX: {
+        from: 10,
+        to: 0,
+      },
       translateY: {
-        from: 50,
+        from: 10,
         to: 0,
       },
       duration: DURATIONS.fade,
