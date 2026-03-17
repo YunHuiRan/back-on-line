@@ -55,7 +55,7 @@
     <button value="8" class="number-button">8</button>
     <button value="9" class="number-button">9</button>
     <button value="×" class="basic-operation-button">×</button>
-    <button value="root" class="advance-operation-button">root</button>
+    <button value="root" class="advance-operation-button">√</button>
     <button value="4" class="number-button">4</button>
     <button value="5" class="number-button">5</button>
     <button value="6" class="number-button">6</button>
