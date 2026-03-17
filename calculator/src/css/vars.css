@@ -1,21 +1,18 @@
 :root {
-  --container-bg-color: #e7e8ea;
+  --calculator-container-bg-color: #e7e8ea;
+  --calculator-container-width: 420px;
+  --calculator-container-min-width: 420px;
+  --calculator-container-max-width: 600px;
+  --calculator-container-height: 95vh;
+  --calculator-container-min-height: 800px;
+  --calculator-container-max-height: 900px;
+  --calculator-container-border-radius: 20px;
 
-  --container-width: 420px;
-  --container-min-width: 420px;
-  --container-max-width: 600px;
+  --base-font-size: 1.3rem;
+  --base-button-radius: 20px;
+  --base-button-border-color: #f9fafc;
 
-  --container-height: 95vh;
-  --container-min-height: 800px;
-  --container-max-height: 900px;
-
-  --container-border-radius: 20px;
-
-  --font-size: 1.3rem;
-
-  --button-display-height: 65%;
-  --button-radius: 100%;
-  --button-border-color: #f9fafc;
+  --button-area-height: 65%;
 
   --number-button-bg-color: #ebebeb;
   --number-text-color: #111214;
@@ -23,24 +20,19 @@
   --ac-button-bg-color: #d3d4d6;
   --ac-text-color: #111214;
 
-  --regular-button-bg-color: #d3d4d6;
-  --regular-text-color: #111214;
+  --del-button-bg-color: #d3d4d6;
+  --del-text-color: #111214;
 
+  --dot-button-bg-color: #ebebeb;
+  --dot-text-color: #111214;
+
+  --basic-operation-button-bg-color: #d3d4d6;
+  --basic-operation-button-text-color: #111214;
+
+  /* TODO */
   --advance-text-color: #6d6d6d;
   --advance-button-bg-color: #e9e9e9;
 
   --equals-button-bg-color: #fd9338;
   --equals-text-color: #fffeec;
-}
-
-@media (min-width: 768px) {
-  :root {
-    --container-width: 600px;
-    --button-radius: 20px;
-    --font-size: 1.5rem;
-  }
-
-  .base-button {
-    aspect-ratio: unset !important;
-  }
 }

@@ -26,16 +26,16 @@ import ButtonsArea from "@/components/ButtonArea/ButtonIndex.vue";
 .container {
   position: relative;
 
-  width: var(--container-width);
-  min-width: var(--container-min-width);
-  max-width: var(--container-max-width);
+  width: var(--calculator-container-width);
+  min-width: var(--calculator-container-min-width);
+  max-width: var(--calculator-container-max-width);
 
-  height: var(--container-height);
-  min-height: var(--container-min-height);
-  max-height: var(--container-max-height);
+  height: var(--calculator-container-height);
+  min-height: var(--calculator-container-min-height);
+  max-height: var(--calculator-container-max-height);
 
-  background-color: var(--container-bg-color);
-  border-radius: var(--container-border-radius);
+  background-color: var(--calculator-container-bg-color);
+  border-radius: var(--calculator-container-border-radius);
 
   /* overflow: hidden; */
 }
