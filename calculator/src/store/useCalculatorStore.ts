@@ -6,7 +6,7 @@ type ThemeState = "light" | "dark";
 
 export const useCalculatorStore = defineStore("calculator", {
   state: () => ({
-    mode: "basic" as CalculatorState,
+    mode: "scientific" as CalculatorState,
     theme: "light" as ThemeState,
   }),
 

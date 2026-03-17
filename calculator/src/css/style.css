@@ -55,6 +55,11 @@ button:hover {
   background-color: var(--advance-operation-button-bg-color);
 }
 
+.selected-angle-unit-button {
+  color: var(--selected-angle-unit-text-color);
+  background-color: var(--selected-angle-unit-bg-color);
+}
+
 .equal-button {
   background-color: var(--equals-button-bg-color);
   color: var(--equals-text-color);

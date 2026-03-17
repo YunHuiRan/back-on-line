@@ -11,7 +11,10 @@ import { createTimeline } from "animejs";
  *
  * @returns {{ tl: import("animejs").AnimeTimelineInstance, finished: Promise<void> }}
  */
-function createTimelineAsync() {
+function createTimelineAsync(): {
+  tl: ReturnType<typeof createTimeline>;
+  finished: Promise<void>;
+} {
   let resolve: () => void;
 
   const finished = new Promise<void>((r) => {
