@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-[20%] pr-10 pt-5 flex justify-end">
+  <div class="w-full h-[20%] px-10 pt-5 flex justify-end overflow-auto">
     <ToggleButtons />
   </div>
 </template>
