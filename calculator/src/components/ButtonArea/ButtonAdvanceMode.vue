@@ -14,19 +14,29 @@
     </button>
     <button
       value="rad"
-      class="advance-operation-button"
+      class="advance-operation-button relative"
       :class="angleUnit === 'rad' ? 'selected-angle-unit-button' : ''"
       @click="toggleAngleUnit('rad')"
     >
-      rad
+      <span>rad</span>
+      <span
+        class="absolute w-full h-full flex justify-center items-center top-0 -left-[50%]"
+      >
+        rad
+      </span>
     </button>
     <button
       value="deg"
-      class="advance-operation-button"
+      class="advance-operation-button relative"
       :class="angleUnit === 'deg' ? 'selected-angle-unit-button' : ''"
       @click="toggleAngleUnit('deg')"
     >
-      deg
+      <span>deg</span>
+      <span
+        class="absolute w-full h-full flex justify-center items-center top-0 left-[50%]"
+      >
+        deg
+      </span>
     </button>
     <button value="log" class="advance-operation-button">
       <span v-if="!isInverseMode">log</span>

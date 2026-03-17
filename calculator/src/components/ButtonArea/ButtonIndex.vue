@@ -1,7 +1,9 @@
 <template>
   <div class="button-area" ref="buttonArea">
-    <ButtonRegularMode v-if="calculatorStore.$state.mode === 'basic'" />
-    <ButtonAdvanceMode v-else />
+    <KeepAlive>
+      <ButtonRegularMode v-if="calculatorStore.$state.mode === 'basic'" />
+      <ButtonAdvanceMode v-else />
+    </KeepAlive>
   </div>
 </template>
 
