@@ -25,17 +25,6 @@ button:hover {
   align-items: center;
 }
 
-.base-button {
-  font-size: var(--base-font-size);
-  border-radius: var(--base-button-radius);
-  border: 1px solid var(--base-button-border-color);
-  aspect-ratio: 1 / 1;
-}
-
-.base-button:hover {
-  filter: brightness(90%);
-}
-
 .number-button {
   background-color: var(--number-button-bg-color);
   color: var(--number-text-color);
@@ -61,9 +50,9 @@ button:hover {
   color: var(--basic-operation-button-text-color);
 }
 
-.advance-button {
-  color: var(--advance-text-color);
-  background-color: var(--advance-button-bg-color);
+.advance-operation-button {
+  color: var(--advance-operation-text-color);
+  background-color: var(--advance-operation-button-bg-color);
 }
 
 .equal-button {

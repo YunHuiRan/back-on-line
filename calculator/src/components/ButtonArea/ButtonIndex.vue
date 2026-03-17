@@ -1,15 +1,19 @@
 <template>
   <div class="button-area" ref="buttonArea">
-    <ButtonRegularMode />
+    <ButtonRegularMode v-if="calculatorStore.$state.mode === 'basic'" />
+    <ButtonAdvanceMode v-else />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, type Ref, onMounted } from "vue";
 import { userAnimationInstance } from "@/store/useAnimationInstanceStore";
+import { useCalculatorStore } from "@/store/useCalculatorStore";
 import ButtonRegularMode from "./ButtonRegularMode.vue";
+import ButtonAdvanceMode from "./ButtonAdvanceMode.vue";
 
 const animationInstanceStore = userAnimationInstance();
+const calculatorStore = useCalculatorStore();
 
 const buttonArea: Ref<HTMLElement | null> = ref(null);
 
