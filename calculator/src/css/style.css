@@ -1,9 +1,76 @@
+@font-face {
+  font-family: "SmileySans";
+  src:
+    url("@/assets/fonts/SmileySans-Oblique.woff2") format("woff2"),
+    url("@/assets/fonts/SmileySans-Oblique.ttf") format("truetype");
+}
+
+* {
+  overflow: hidden;
+  transition: width 0.1s ease-in-out;
+}
+
 body {
+  font-family: "SmileySans", sans-serif;
   background-color: rgb(98, 98, 98);
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 .flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.number-button {
+  background-color: var(--number-button-bg-color);
+  color: var(--number-text-color);
+}
+
+.ac-button {
+  background-color: var(--ac-button-bg-color);
+  color: var(--ac-text-color);
+}
+
+.del-button {
+  background-color: var(--del-button-bg-color);
+  color: var(--del-text-color);
+}
+
+.dot-button {
+  background-color: var(--dot-button-bg-color);
+  color: var(--dot-text-color);
+}
+
+.basic-operation-button {
+  background-color: var(--basic-operation-button-bg-color);
+  color: var(--basic-operation-button-text-color);
+}
+
+.advance-operation-button {
+  color: var(--advance-operation-text-color);
+  background-color: var(--advance-operation-button-bg-color);
+}
+
+.equal-button {
+  background-color: var(--equals-button-bg-color);
+  color: var(--equals-text-color);
+}
+
+.transition-cover {
+  background-color: #cfd3dc;
+  border-radius: 5%;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --calculator-container-width: 600px;
+  }
+
+  .base-button {
+    aspect-ratio: unset !important;
+  }
 }
