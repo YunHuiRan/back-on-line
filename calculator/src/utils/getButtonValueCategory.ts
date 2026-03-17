@@ -1,19 +1,20 @@
 type ButtonCategory = "regular" | "function" | "advanced" | "equal";
 
 export const BUTTON_VALUE_CATEGORIES = {
-  number: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "00", "."],
+  number: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "00"],
+  regular: ["%", "÷", "X", "-", "+"],
+  dot: ["."],
+  delete: ["del"],
   ac: ["ac"],
-  regular: ["%", "del", "÷", "X", "-", "+"],
+  radian: ["rad"],
+  degree: ["deg"],
+  brackets: ["(", ")"],
   advance: [
     "sin",
     "cos",
     "tan",
-    "rad",
-    "deg",
     "log",
     "ln",
-    "(",
-    ")",
     "inv",
     "!",
     "^",

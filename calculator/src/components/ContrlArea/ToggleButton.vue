@@ -1,5 +1,5 @@
 <template>
-  <button ref="animationChild" class="h-full" @click="toggleCalculatorMode">
+  <button ref="animationChild" class="h-full" @click="handleToggleClick">
     <!-- scientific -->
     <svg
       v-if="currentMode === 'basic'"
@@ -40,12 +40,28 @@ import { toggleCalculatorMode } from "@/utils/toggleCalculatorMode";
 const calculatorStore = useCalculatorStore();
 const animationInstanceStore = userAnimationInstance();
 
-const animationChild: Ref<HTMLElement | null> = ref(null);
+const animationChild: Ref<HTMLButtonElement | null> = ref(null);
 const currentMode = computed(() => calculatorStore.$state.mode);
 
 const iconColor = computed(() =>
   calculatorStore.$state.theme === "light" ? "#000" : "#fff",
 );
+
+async function handleToggleClick(): Promise<void> {
+  if (!animationChild.value) return;
+
+  animationChild.value.disabled = true;
+
+  const res: boolean = await toggleCalculatorMode();
+
+  if (res) {
+    console.log("Mode toggled successfully");
+  } else {
+    console.error("Failed to toggle mode");
+  }
+
+  animationChild.value.disabled = false;
+}
 
 onMounted(() => {
   if (animationChild.value) {

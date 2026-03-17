@@ -3,6 +3,31 @@ import { useCalculatorStore } from "@/store/useCalculatorStore";
 import { createTimeline } from "animejs";
 
 /**
+ * createTimelineAsync
+ * -------------------
+ * Create an anime.js timeline and a Promise that resolves when the
+ * timeline completes. This helper exposes both the timeline instance and
+ * a `finished` promise so callers can `await` the completion of animations.
+ *
+ * @returns {{ tl: import("animejs").AnimeTimelineInstance, finished: Promise<void> }}
+ */
+function createTimelineAsync() {
+  let resolve: () => void;
+
+  const finished = new Promise<void>((r) => {
+    resolve = r;
+  });
+
+  const tl = createTimeline({
+    onComplete: () => {
+      resolve();
+    },
+  });
+
+  return { tl, finished };
+}
+
+/**
  * toggleCalculatorMode
  * --------------------
  * Animate a morphing transition between the small toggle button and the
@@ -20,20 +45,21 @@ import { createTimeline } from "animejs";
  *   - Removes the covers when their exit animations complete.
  *   - Calls `calculatorStore.toggleMode()` at the configured timeline point.
  *
- * @returns {void}
+ * @returns {Promise<boolean>}
  */
-export function toggleCalculatorMode(): void {
+export async function toggleCalculatorMode(): Promise<boolean> {
+  const { tl, finished } = createTimelineAsync();
   const state = userAnimationInstance().$state;
   const calculatorStore = useCalculatorStore();
 
   const toggleBtnInstance = state.toggleButton;
   const buttonAreaInstance = state.buttonArea;
-  if (!toggleBtnInstance || !buttonAreaInstance) return;
+  if (!toggleBtnInstance || !buttonAreaInstance) return true;
 
   const toggleBtnRect = state.toggleButton?.getBoundingClientRect();
   const buttonAreaRect = state.buttonArea?.getBoundingClientRect();
 
-  if (!toggleBtnRect || !buttonAreaRect) return;
+  if (!toggleBtnRect || !buttonAreaRect) return false;
 
   /**
    * createCover
@@ -69,22 +95,24 @@ export function toggleCalculatorMode(): void {
   // is set to `top left` so translate/scale operate relative to the rect
   // coordinates we computed above.
   const common = { transformOrigin: "top left" } as const;
-  if (!toggleCover || !areaCover) return;
-
-  const tl = createTimeline();
+  if (!toggleCover || !areaCover) return false;
 
   const DURATIONS = {
     fade: 200,
     morph: 500,
   } as const;
 
+  // Animation timing configuration (milliseconds) reused across the
+  // timeline to keep durations consistent and easy to adjust.
+
   const TIME_LINE_POINTS = {
-    fadeOut: 0, // start fading out the toggle button and button area
+    instanceFadeOut: 0, // start fading out the toggle button and button area
     coverFadeIn: 0, // start fading in the covers
     morphStart: 100, // start the morph/scale/translate animation
     toggleMode: 200, // call the store toggle at this timeline moment
     fadeIn: 600, // fade the UI elements back in after the morph
     coverFadeOut: 600, // fade the covers out and remove them
+    instanceFadeIn: 500, // fade the toggle button and button area after the morph
   } as const;
 
   // Fade out the visible UI nodes (toggle button and button area)
@@ -94,7 +122,7 @@ export function toggleCalculatorMode(): void {
       opacity: [1, 0],
       duration: DURATIONS.fade,
     },
-    TIME_LINE_POINTS.fadeOut,
+    TIME_LINE_POINTS.instanceFadeOut,
   );
 
   // Fade in the covers so the morph layers appear underneath the fading UI.
@@ -170,4 +198,38 @@ export function toggleCalculatorMode(): void {
     },
     TIME_LINE_POINTS.coverFadeOut,
   );
+
+  tl.add(
+    toggleBtnInstance,
+    {
+      opacity: [0, 1],
+      translateY: {
+        from: 50,
+        to: 0,
+      },
+      duration: DURATIONS.fade,
+    },
+    TIME_LINE_POINTS.instanceFadeIn,
+  );
+
+  tl.add(
+    buttonAreaInstance,
+    {
+      opacity: [0, 1],
+      translateX: {
+        from: -50,
+        to: 0,
+      },
+      translateY: {
+        from: -50,
+        to: 0,
+      },
+      duration: DURATIONS.fade,
+    },
+    TIME_LINE_POINTS.instanceFadeIn,
+  );
+
+  await finished;
+
+  return true;
 }

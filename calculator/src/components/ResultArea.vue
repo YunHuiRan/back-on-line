@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-[80%] bg-red-300">
+  <div class="w-full h-[80%]">
     {{ calculationFormulaStore.$state.rawString }}
   </div>
 </template>
