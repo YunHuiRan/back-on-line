@@ -15,28 +15,34 @@
     <button
       value="rad"
       class="advance-operation-button relative"
-      :class="angleUnit === 'rad' ? 'selected-angle-unit-button' : ''"
       @click="toggleAngleUnit('rad')"
     >
-      <span>rad</span>
-      <span
-        class="absolute w-full h-full flex justify-center items-center top-0 -left-[50%]"
+      <!-- rad滑块 -->
+      <div
+        class="slider-container"
+        :class="angleUnit === 'rad' ? '-translate-x-[50%]' : ''"
       >
-        rad
-      </span>
+        <span class="flex-center w-1/2 h-full">rad</span>
+        <span class="flex-center w-1/2 h-full selected-angle-unit-button">
+          rad
+        </span>
+      </div>
     </button>
     <button
       value="deg"
       class="advance-operation-button relative"
-      :class="angleUnit === 'deg' ? 'selected-angle-unit-button' : ''"
       @click="toggleAngleUnit('deg')"
     >
-      <span>deg</span>
-      <span
-        class="absolute w-full h-full flex justify-center items-center top-0 left-[50%]"
+      <!-- deg滑块 -->
+      <div
+        class="slider-container"
+        :class="angleUnit === 'deg' ? ' translate-x-0' : '-translate-x-[50%]'"
       >
-        deg
-      </span>
+        <span class="flex-center w-1/2 h-full selected-angle-unit-button">
+          deg
+        </span>
+        <span class="flex-center w-1/2 h-full">deg</span>
+      </div>
     </button>
     <button value="log" class="advance-operation-button">
       <span v-if="!isInverseMode">log</span>
@@ -114,5 +120,16 @@ button {
 
 button:hover {
   filter: brightness(90%);
+}
+
+.slider-container {
+  width: 200%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  transition: translate 0.3s ease-in-out;
 }
 </style>
