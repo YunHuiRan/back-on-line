@@ -1,23 +1,47 @@
 <template>
   <div class="w-full h-full grid p-2 gap-2 grid-cols-5">
     <button value="sin" class="advance-operation-button">
-      <span v-if="!isInverseMode">sin</span>
-      <span v-else>sin <sup>-1</sup></span>
+      <!-- sin slider -->
+      <div
+        class="slider-container"
+        :class="isInverseMode ? ' -translate-x-[50%]' : 'translate-x-0'"
+      >
+        <span class="flex-center w-1/2 h-full">sin</span>
+        <span class="flex-center w-1/2 h-full">
+          <span> sin<sup>-1</sup> </span>
+        </span>
+      </div>
     </button>
     <button value="cos" class="advance-operation-button">
-      <span v-if="!isInverseMode">cos</span>
-      <span v-else>cos <sup>-1</sup></span>
+      <!-- cos slider -->
+      <div
+        class="slider-container"
+        :class="isInverseMode ? ' -translate-x-[50%]' : 'translate-x-0'"
+      >
+        <span class="flex-center w-1/2 h-full">cos</span>
+        <span class="flex-center w-1/2 h-full">
+          <span> cos<sup>-1</sup> </span>
+        </span>
+      </div>
     </button>
     <button value="tan" class="advance-operation-button">
-      <span v-if="!isInverseMode">tan</span>
-      <span v-else>tan <sup>-1</sup></span>
+      <!-- tan slider -->
+      <div
+        class="slider-container"
+        :class="isInverseMode ? ' -translate-x-[50%]' : 'translate-x-0'"
+      >
+        <span class="flex-center w-1/2 h-full">tan</span>
+        <span class="flex-center w-1/2 h-full">
+          <span> tan<sup>-1</sup> </span>
+        </span>
+      </div>
     </button>
     <button
       value="rad"
-      class="advance-operation-button relative"
+      class="advance-operation-button"
       @click="toggleAngleUnit('rad')"
     >
-      <!-- rad滑块 -->
+      <!-- rad slider -->
       <div
         class="slider-container"
         :class="angleUnit === 'rad' ? '-translate-x-[50%]' : ''"
@@ -30,10 +54,10 @@
     </button>
     <button
       value="deg"
-      class="advance-operation-button relative"
+      class="advance-operation-button"
       @click="toggleAngleUnit('deg')"
     >
-      <!-- deg滑块 -->
+      <!-- deg slider -->
       <div
         class="slider-container"
         :class="angleUnit === 'deg' ? ' translate-x-0' : '-translate-x-[50%]'"
@@ -45,12 +69,28 @@
       </div>
     </button>
     <button value="log" class="advance-operation-button">
-      <span v-if="!isInverseMode">log</span>
-      <span v-else>10<sup>^</sup></span>
+      <!-- log slider -->
+      <div
+        class="slider-container"
+        :class="isInverseMode ? ' -translate-x-[50%]' : 'translate-x-0'"
+      >
+        <span class="flex-center w-1/2 h-full">log</span>
+        <span class="flex-center w-1/2 h-full">
+          <span> 10<sup>^</sup> </span>
+        </span>
+      </div>
     </button>
     <button value="ln" class="advance-operation-button">
-      <span v-if="!isInverseMode">ln</span>
-      <span v-else>e<sup>×</sup></span>
+      <!-- ln slider -->
+      <div
+        class="slider-container"
+        :class="isInverseMode ? ' -translate-x-[50%]' : 'translate-x-0'"
+      >
+        <span class="flex-center w-1/2 h-full">ln</span>
+        <span class="flex-center w-1/2 h-full">
+          <span> e<sup>×</sup> </span>
+        </span>
+      </div>
     </button>
     <button value="(" class="advance-operation-button">(</button>
     <button value=")" class="advance-operation-button">)</button>
@@ -59,7 +99,16 @@
       class="advance-operation-button"
       @click="toggleInverseMode"
     >
-      inv
+      <!-- inv slider -->
+      <div
+        class="slider-container"
+        :class="isInverseMode ? ' -translate-x-[50%]' : 'translate-x-0'"
+      >
+        <span class="flex-center w-1/2 h-full">inv</span>
+        <span class="flex-center w-1/2 h-full selected-angle-unit-button">
+          inv
+        </span>
+      </div>
     </button>
     <button value="!" class="advance-operation-button">!</button>
     <button value="ac" class="ac-button">ac</button>
