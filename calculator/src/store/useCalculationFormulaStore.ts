@@ -1,5 +1,12 @@
 import { defineStore } from "pinia";
-import { getButtonValueCategory } from "@/utils/getButtonValueCategory";
+
+type dataTypes =
+  | "number"
+  | "operator"
+  | "function"
+  | "modifier"
+  | "action"
+  | "mode";
 
 export const useCalculationFormulaStore = defineStore("calculationFormula", {
   state: () => ({
@@ -7,8 +14,9 @@ export const useCalculationFormulaStore = defineStore("calculationFormula", {
   }),
 
   actions: {
-    addToRawString(char: String): void {
-      this.rawString += char;
+    addToRawString(value: String, type: dataTypes): void {
+      this.rawString += value;
+      console.log(value, type);
     },
 
     // ac

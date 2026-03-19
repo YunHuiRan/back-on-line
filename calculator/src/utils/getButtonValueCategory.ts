@@ -1,3 +1,4 @@
+// TODO delete this if not needed anymore
 type ButtonCategory = "regular" | "function" | "advanced" | "equal";
 
 export const BUTTON_VALUE_CATEGORIES = {

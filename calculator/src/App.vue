@@ -36,7 +36,5 @@ import ButtonsArea from "@/components/ButtonArea/ButtonIndex.vue";
 
   background-color: var(--calculator-container-bg-color);
   border-radius: var(--calculator-container-border-radius);
-
-  /* overflow: hidden; */
 }
 </style>

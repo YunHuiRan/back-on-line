@@ -74,8 +74,4 @@ button:hover {
   :root {
     --calculator-container-width: 600px;
   }
-
-  .base-button {
-    aspect-ratio: unset !important;
-  }
 }

@@ -1,6 +1,11 @@
 <template>
   <div class="w-full h-full grid p-2 gap-2 grid-cols-5">
-    <button value="sin" class="advance-operation-button">
+    <button
+      data-type="function"
+      :value="isInverseMode ? 'arcsin' : 'sin'"
+      class="advance-operation-button"
+      @click="handleButtonClick"
+    >
       <!-- sin slider -->
       <div
         class="slider-container"
@@ -12,7 +17,13 @@
         </span>
       </div>
     </button>
-    <button value="cos" class="advance-operation-button">
+
+    <button
+      data-type="function"
+      :value="isInverseMode ? 'arccos' : 'cos'"
+      class="advance-operation-button"
+      @click="handleButtonClick"
+    >
       <!-- cos slider -->
       <div
         class="slider-container"
@@ -24,7 +35,13 @@
         </span>
       </div>
     </button>
-    <button value="tan" class="advance-operation-button">
+
+    <button
+      data-type="function"
+      :value="isInverseMode ? 'arctan' : 'tan'"
+      class="advance-operation-button"
+      @click="handleButtonClick"
+    >
       <!-- tan slider -->
       <div
         class="slider-container"
@@ -36,7 +53,9 @@
         </span>
       </div>
     </button>
+
     <button
+      data-type="mode"
       value="rad"
       class="advance-operation-button"
       @click="toggleAngleUnit('rad')"
@@ -52,7 +71,9 @@
         </span>
       </div>
     </button>
+
     <button
+      data-type="mode"
       value="deg"
       class="advance-operation-button"
       @click="toggleAngleUnit('deg')"
@@ -68,7 +89,13 @@
         <span class="flex-center w-1/2 h-full">deg</span>
       </div>
     </button>
-    <button value="log" class="advance-operation-button">
+
+    <button
+      data-type="function"
+      :value="isInverseMode ? '10^x' : 'log'"
+      class="advance-operation-button"
+      @click="handleButtonClick"
+    >
       <!-- log slider -->
       <div
         class="slider-container"
@@ -80,7 +107,13 @@
         </span>
       </div>
     </button>
-    <button value="ln" class="advance-operation-button">
+
+    <button
+      data-type="function"
+      :value="isInverseMode ? 'e^x' : 'ln'"
+      class="advance-operation-button"
+      @click="handleButtonClick"
+    >
       <!-- ln slider -->
       <div
         class="slider-container"
@@ -92,9 +125,27 @@
         </span>
       </div>
     </button>
-    <button value="(" class="advance-operation-button">(</button>
-    <button value=")" class="advance-operation-button">)</button>
+
     <button
+      data-type="group"
+      value="("
+      class="advance-operation-button"
+      @click="handleButtonClick"
+    >
+      (
+    </button>
+
+    <button
+      data-type="group"
+      value=")"
+      class="advance-operation-button"
+      @click="handleButtonClick"
+    >
+      )
+    </button>
+
+    <button
+      data-type="modifier"
       value="inv"
       class="advance-operation-button"
       @click="toggleInverseMode"
@@ -110,41 +161,219 @@
         </span>
       </div>
     </button>
-    <button value="!" class="advance-operation-button">!</button>
-    <button value="ac" class="ac-button">ac</button>
-    <button value="del" class="del-button">del</button>
-    <button value="%" class="basic-operation-button">%</button>
-    <button value="÷" class="basic-operation-button">÷</button>
-    <button value="^" class="advance-operation-button">^</button>
-    <button value="7" class="number-button">7</button>
-    <button value="8" class="number-button">8</button>
-    <button value="9" class="number-button">9</button>
-    <button value="×" class="basic-operation-button">×</button>
-    <button value="root" class="advance-operation-button">√</button>
-    <button value="4" class="number-button">4</button>
-    <button value="5" class="number-button">5</button>
-    <button value="6" class="number-button">6</button>
-    <button value="-" class="basic-operation-button">-</button>
-    <button value="Π" class="advance-operation-button">Π</button>
-    <button value="1" class="number-button">1</button>
-    <button value="2" class="number-button">2</button>
-    <button value="3" class="number-button">3</button>
-    <button value="+" class="basic-operation-button">+</button>
-    <button value="e" class="advance-operation-button">e</button>
-    <button value="00" class="number-button">00</button>
-    <button value="0" class="number-button">0</button>
-    <button value="." class="dot-button">.</button>
-    <button value="=" class="equal-button">=</button>
+
+    <button
+      data-type="function"
+      value="!"
+      class="advance-operation-button"
+      @click="handleButtonClick"
+    >
+      !
+    </button>
+    <button
+      data-type="action"
+      value="ac"
+      class="ac-button"
+      @click="handleButtonClick"
+    >
+      ac
+    </button>
+    <button
+      data-type="action"
+      value="del"
+      class="del-button"
+      @click="handleButtonClick"
+    >
+      del
+    </button>
+    <button
+      data-type="operator"
+      value="%"
+      class="basic-operation-button"
+      @click="handleButtonClick"
+    >
+      %
+    </button>
+    <button
+      data-type="operator"
+      value="÷"
+      class="basic-operation-button"
+      @click="handleButtonClick"
+    >
+      ÷
+    </button>
+    <button
+      data-type="operator"
+      value="^"
+      class="advance-operation-button"
+      @click="handleButtonClick"
+    >
+      ^
+    </button>
+    <button
+      data-type="number"
+      value="7"
+      class="number-button"
+      @click="handleButtonClick"
+    >
+      7
+    </button>
+    <button
+      data-type="number"
+      value="8"
+      class="number-button"
+      @click="handleButtonClick"
+    >
+      8
+    </button>
+    <button
+      data-type="number"
+      value="9"
+      class="number-button"
+      @click="handleButtonClick"
+    >
+      9
+    </button>
+    <button
+      data-type="operator"
+      value="×"
+      class="basic-operation-button"
+      @click="handleButtonClick"
+    >
+      ×
+    </button>
+    <button
+      data-type="function"
+      value="root"
+      class="advance-operation-button"
+      @click="handleButtonClick"
+    >
+      √
+    </button>
+    <button
+      data-type="number"
+      value="4"
+      class="number-button"
+      @click="handleButtonClick"
+    >
+      4
+    </button>
+    <button
+      data-type="number"
+      value="5"
+      class="number-button"
+      @click="handleButtonClick"
+    >
+      5
+    </button>
+    <button
+      data-type="number"
+      value="6"
+      class="number-button"
+      @click="handleButtonClick"
+    >
+      6
+    </button>
+    <button
+      data-type="operator"
+      value="-"
+      class="basic-operation-button"
+      @click="handleButtonClick"
+    >
+      -
+    </button>
+    <button
+      data-type="constant"
+      value="Π"
+      class="advance-operation-button"
+      @click="handleButtonClick"
+    >
+      Π
+    </button>
+    <button
+      data-type="number"
+      value="1"
+      class="number-button"
+      @click="handleButtonClick"
+    >
+      1
+    </button>
+    <button
+      data-type="number"
+      value="2"
+      class="number-button"
+      @click="handleButtonClick"
+    >
+      2
+    </button>
+    <button
+      data-type="number"
+      value="3"
+      class="number-button"
+      @click="handleButtonClick"
+    >
+      3
+    </button>
+    <button
+      data-type="operator"
+      value="+"
+      class="basic-operation-button"
+      @click="handleButtonClick"
+    >
+      +
+    </button>
+    <button
+      data-type="constant"
+      value="e"
+      class="advance-operation-button"
+      @click="handleButtonClick"
+    >
+      e
+    </button>
+    <button
+      data-type="number"
+      value="0"
+      class="number-button"
+      @click="handleButtonClick"
+    >
+      0
+    </button>
+    <button
+      data-type="number"
+      value="00"
+      class="number-button"
+      @click="handleButtonClick"
+    >
+      00
+    </button>
+    <button
+      data-type="number"
+      value="."
+      class="dot-button"
+      @click="handleButtonClick"
+    >
+      .
+    </button>
+    <button
+      data-type="equal"
+      value="="
+      class="equal-button"
+      @click="handleButtonClick"
+    >
+      =
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
+import { useCalculationFormulaStore } from "@/store/useCalculationFormulaStore";
 
 type AngleUnitType = "rad" | "deg";
 
 const angleUnit: Ref<AngleUnitType> = ref("deg");
 const isInverseMode: Ref<boolean> = ref(false);
+const calculationFormulaStore = useCalculationFormulaStore();
 
 function toggleAngleUnit(newAngleUnit: AngleUnitType): void {
   if (angleUnit.value === newAngleUnit) return;
@@ -157,6 +386,20 @@ function toggleInverseMode(): void {
   isInverseMode.value = !isInverseMode.value;
 
   console.log(`inverse mode ${isInverseMode.value ? "enabled" : "disabled"}`);
+}
+
+function handleButtonClick(event: MouseEvent): void {
+  const target = event.target as HTMLElement;
+  const button = target.closest("button");
+  if (!button) return;
+
+  const value = button.getAttribute("value");
+  const type = button.getAttribute("data-type");
+
+  if (!value || !type) return;
+
+  // @ts-ignore
+  calculationFormulaStore.addToRawString(value, type);
 }
 </script>
 

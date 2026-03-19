@@ -45,7 +45,7 @@ async function handleToggleClick(): Promise<void> {
   const res: boolean = await toggleCalculatorMode();
 
   if (res) {
-    console.log("Mode toggled successfully");
+    console.log("Mode toggled successfully, it is now", currentMode.value);
   } else {
     console.error("Failed to toggle mode");
   }
