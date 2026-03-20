@@ -47,19 +47,7 @@ type dataTypes =
   | constantsTypes;
 
 export const useCalculationFormulaStore = defineStore("calculationFormula", {
-  state: () => ({
-    rawString: "" as string,
-  }),
+  state: () => ({}),
 
-  actions: {
-    addToRawString(value: String, type: dataTypes): void {
-      this.rawString += value;
-      console.log(value, type);
-    },
-
-    // ac
-    allClear(): void {
-      this.rawString = "";
-    },
-  },
+  actions: {},
 });
