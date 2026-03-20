@@ -35,8 +35,6 @@ const animationInstanceStore = userAnimationInstance();
 const animationChild: Ref<HTMLButtonElement | null> = ref(null);
 const currentMode = computed(() => calculatorStore.$state.mode);
 
-// TODO light and dark mode
-
 async function handleToggleClick(): Promise<void> {
   if (!animationChild.value) return;
 
@@ -67,5 +65,12 @@ onMounted(() => {
 .icon {
   height: 100%;
   width: 100%;
+}
+
+button {
+  color: var(--toggle-symbol-color);
+  transition:
+    color var(--bg-transition-duration) ease,
+    background var(--bg-transition-duration) ease;
 }
 </style>

@@ -10,9 +10,15 @@
   transition: width 0.1s ease-in-out;
 }
 
+html,
 body {
   font-family: "SmileySans", sans-serif;
-  background-color: rgb(98, 98, 98);
+  background: linear-gradient(var(--bg-gradient-start), var(--bg-gradient-end));
+  color: var(--number-text-color);
+  transition:
+    background var(--bg-transition-duration) ease,
+    color var(--bg-transition-duration) ease;
+  min-height: 100%;
 }
 
 button:hover {
