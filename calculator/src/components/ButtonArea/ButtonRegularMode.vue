@@ -15,38 +15,9 @@
 
 <script setup lang="ts">
 import { useCalculationFormulaStore } from "@/store/useCalculationFormulaStore";
+import { buttons } from "./buttonRegularData";
 
 const calculationFormulaStore = useCalculationFormulaStore();
-
-type ButtonDef = {
-  value: string;
-  type: string;
-  class: string;
-  label?: string;
-};
-
-const buttons: ButtonDef[] = [
-  { value: "ac", type: "action", class: "ac-button" },
-  { value: "del", type: "action", class: "del-button" },
-  { value: "%", type: "operator", class: "basic-operation-button" },
-  { value: "÷", type: "operator", class: "basic-operation-button" },
-  { value: "7", type: "number", class: "number-button" },
-  { value: "8", type: "number", class: "number-button" },
-  { value: "9", type: "number", class: "number-button" },
-  { value: "×", type: "operator", class: "basic-operation-button" },
-  { value: "4", type: "number", class: "number-button" },
-  { value: "5", type: "number", class: "number-button" },
-  { value: "6", type: "number", class: "number-button" },
-  { value: "-", type: "operator", class: "basic-operation-button" },
-  { value: "1", type: "number", class: "number-button" },
-  { value: "2", type: "number", class: "number-button" },
-  { value: "3", type: "number", class: "number-button" },
-  { value: "+", type: "operator", class: "basic-operation-button" },
-  { value: "00", type: "number", class: "number-button" },
-  { value: "0", type: "number", class: "number-button" },
-  { value: ".", type: "number", class: "dot-button" },
-  { value: "=", type: "equal", class: "equal-button" },
-];
 
 function handleButtonClick(event: MouseEvent): void {
   const target = event.target as HTMLElement;
