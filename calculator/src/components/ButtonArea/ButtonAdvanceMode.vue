@@ -347,7 +347,7 @@
       00
     </button>
     <button
-      data-type="number"
+      data-type="numbrer"
       value="."
       class="dot-button"
       @click="handleButtonClick"
