@@ -1,7 +1,7 @@
 <template>
   <div class="w-screen h-screen flex-center">
     <!-- calculator container -->
-    <div class="container">
+    <div class="container shadow-2xl">
       <div class="w-full h-[35%] relative">
         <!-- control buttons -->
         <ContrlIndex />
