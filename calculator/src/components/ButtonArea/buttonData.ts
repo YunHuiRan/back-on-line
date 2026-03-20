@@ -1,3 +1,11 @@
+/**
+ * ButtonDef describes an advanced-mode button and its metadata.
+ * - `value` / `altValue`: primary and alternate values forwarded to the store
+ * - `slider`: whether the button uses a two-state slider (left/right)
+ * - `leftHtml` / `rightHtml`: HTML string rendered inside the slot
+ * - `onClickType` / `onClickParam`: special local actions (toggle angle/inverse)
+ * - `shiftWith` / `shiftParam`: determine the slider shifted state
+ */
 export type ButtonDef = {
   key: string;
   value: string;
@@ -149,7 +157,6 @@ export const buttons: ButtonDef[] = [
   { key: "e", value: "e", type: "constant", class: "advance-operation-button" },
   { key: "0", value: "0", type: "number", class: "number-button" },
   { key: "00", value: "00", type: "number", class: "number-button" },
-  // note: preserve original typo for data-type
   { key: ".", value: ".", type: "numbrer", class: "dot-button" },
   { key: "=", value: "=", type: "equal", class: "equal-button" },
 ];

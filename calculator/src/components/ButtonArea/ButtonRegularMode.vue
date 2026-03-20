@@ -19,6 +19,13 @@ import { buttons } from "./buttonRegularData";
 
 const calculationFormulaStore = useCalculationFormulaStore();
 
+/**
+ * Handle a click from any rendered regular button.
+ * Finds the closest `button` element, reads its `value` and `data-type`
+ * attributes and forwards them to the calculation store.
+ * -------------------
+ * @param {MouseEvent} event - Click event from the button
+ */
 function handleButtonClick(event: MouseEvent): void {
   const target = event.target as HTMLElement;
   const button = target.closest("button");

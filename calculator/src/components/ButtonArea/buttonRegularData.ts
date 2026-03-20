@@ -1,3 +1,7 @@
+/**
+ * RegularButtonDef represents a simple numeric/operator button used in the
+ * calculator's regular (non-advanced) mode.
+ */
 export type RegularButtonDef = {
   value: string;
   type: string;
