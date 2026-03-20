@@ -96,7 +96,7 @@ button:hover {
 }
 
 .transition-cover {
-  background-color: #cfd3dc;
+  background-color: var(--tansition-cover-bg-color);
   border-radius: 5%;
 }
 

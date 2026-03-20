@@ -1,13 +1,13 @@
 :root {
   --main-color: #fd9338;
 
-  /* page background gradient and transition */
   --bg-gradient-start: #f7f8fa;
   --bg-gradient-end: #e7e8ea;
   --bg-transition-duration: 300ms;
 
-  /* toggle symbol color */
   --toggle-symbol-color: #111214;
+
+  --tansition-cover-bg-color: #dedede;
 
   --calculator-container-bg-color: #e7e8ea;
   --calculator-container-width: 420px;

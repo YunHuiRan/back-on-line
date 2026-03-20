@@ -7,7 +7,10 @@
   >
     <Transition>
       <span class="absolute" v-if="isDark">🌙</span>
-      <span class="absolute" v-else>☀️</span>
+    </Transition>
+
+    <Transition>
+      <span class="absolute" v-if="!isDark">☀️</span>
     </Transition>
   </button>
 </template>
