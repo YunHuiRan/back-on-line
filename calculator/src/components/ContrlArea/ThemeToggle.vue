@@ -3,10 +3,12 @@
     aria-label="Toggle theme"
     :aria-pressed="isDark"
     @click="toggle"
-    class="h-10 w-10 flex items-center justify-center rounded-md"
+    class="relative h-10 w-10 flex items-center justify-center rounded-md"
   >
-    <span v-if="isDark">🌙</span>
-    <span v-else>☀️</span>
+    <Transition>
+      <span class="absolute" v-if="isDark">🌙</span>
+      <span class="absolute" v-else>☀️</span>
+    </Transition>
   </button>
 </template>
 
@@ -56,5 +58,15 @@ onMounted(() => {
 <style scoped>
 button {
   background: transparent;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
