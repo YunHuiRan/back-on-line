@@ -128,10 +128,27 @@ button {
   font-size: var(--base-font-size);
   border-radius: var(--base-button-radius);
   border: 1px solid var(--base-button-border-color);
+  transition: all 0.2s ease-in-out;
 }
 
 button:hover {
   filter: brightness(90%);
+  transform: translateY(-5px) scaleX(105%);
+}
+
+button:active {
+  filter: brightness(100%);
+  transform: translateY(-3px) scaleX(100%);
+}
+
+html[class="dark"] button:hover {
+  filter: brightness(200%);
+  transform: translateY(-5px) scaleX(105%);
+}
+
+html[class="dark"] button:active {
+  filter: brightness(100%);
+  transform: translateY(-3px) scaleX(100%);
 }
 
 .slider-container {
