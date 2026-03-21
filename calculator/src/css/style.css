@@ -1,0 +1,114 @@
+@font-face {
+  font-family: "SmileySans";
+  src:
+    url("@/assets/fonts/SmileySans-Oblique.woff2") format("woff2"),
+    url("@/assets/fonts/SmileySans-Oblique.ttf") format("truetype");
+}
+
+* {
+  overflow: hidden;
+  transition: width 0.1s ease-in-out;
+  user-select: none;
+  -moz-user-select: none;
+}
+
+html,
+body {
+  font-family: "SmileySans", sans-serif;
+  background: none;
+  color: var(--number-text-color);
+  min-height: 100%;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity var(--bg-transition-duration) ease;
+}
+
+body::before {
+  background: linear-gradient(#f7f8fa, #e7e8ea);
+  opacity: 1;
+}
+
+body::after {
+  background: linear-gradient(#071018, #0f1720);
+  opacity: 0;
+}
+
+html.dark body::before {
+  opacity: 0;
+}
+html.dark body::after {
+  opacity: 1;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.number-button {
+  background-color: var(--number-button-bg-color);
+  color: var(--number-text-color);
+}
+
+.ac-button {
+  background-color: var(--ac-button-bg-color);
+  color: var(--ac-text-color);
+}
+
+.del-button {
+  background-color: var(--del-button-bg-color);
+  color: var(--del-text-color);
+}
+
+.dot-button {
+  background-color: var(--dot-button-bg-color);
+  color: var(--dot-text-color);
+}
+
+.basic-operation-button {
+  background-color: var(--basic-operation-button-bg-color);
+  color: var(--basic-operation-button-text-color);
+}
+
+.advance-operation-button {
+  color: var(--advance-operation-text-color);
+  background-color: var(--advance-operation-button-bg-color);
+}
+
+.selected-angle-unit-button {
+  color: var(--selected-angle-unit-text-color);
+  background-color: var(--selected-angle-unit-bg-color);
+}
+
+.equal-button {
+  background-color: var(--equals-button-bg-color);
+  color: var(--equals-text-color);
+}
+
+.copy-alert {
+  background-color: var(--copy-alert-button-bg-color);
+  color: var(--copy-alert-text-color);
+}
+
+.transition-cover {
+  background-color: var(--tansition-cover-bg-color);
+  border-radius: 5%;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --calculator-container-width: 600px;
+  }
+}

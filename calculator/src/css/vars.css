@@ -1,0 +1,53 @@
+:root {
+  --main-color: #fd9338;
+
+  --bg-gradient-start: #f7f8fa;
+  --bg-gradient-end: #e7e8ea;
+  --bg-transition-duration: 300ms;
+
+  --toggle-symbol-color: #111214;
+
+  --tansition-cover-bg-color: #dedede;
+
+  --calculator-container-bg-color: #e7e8ea;
+  --calculator-container-width: 420px;
+  --calculator-container-min-width: 420px;
+  --calculator-container-max-width: 600px;
+  --calculator-container-height: 95vh;
+  --calculator-container-min-height: 800px;
+  --calculator-container-max-height: 900px;
+  --calculator-container-border-radius: 20px;
+
+  --base-font-size: 1.3rem;
+  --base-button-radius: 20px;
+  --base-button-border-color: #f9fafc;
+
+  --button-area-height: 65%;
+
+  --number-button-bg-color: #ebebeb;
+  --number-text-color: #111214;
+
+  --ac-button-bg-color: #d3d4d6;
+  --ac-text-color: #111214;
+
+  --del-button-bg-color: #d3d4d6;
+  --del-text-color: #111214;
+
+  --dot-button-bg-color: #ebebeb;
+  --dot-text-color: #111214;
+
+  --basic-operation-button-bg-color: #d3d4d6;
+  --basic-operation-button-text-color: #111214;
+
+  --advance-operation-button-bg-color: #e9e9e9;
+  --advance-operation-text-color: #6d6d6d;
+
+  --selected-angle-unit-bg-color: #e9e9e9;
+  --selected-angle-unit-text-color: var(--main-color);
+
+  --equals-button-bg-color: var(--main-color);
+  --equals-text-color: #fffeec;
+
+  --copy-alter-button-bg-color: #d3d4d6;
+  --copy-alter-text-color: #111214;
+}

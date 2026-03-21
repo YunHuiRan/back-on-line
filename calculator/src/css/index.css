@@ -1,0 +1,4 @@
+@import "./vars.css";
+@import "./vars.dark.css";
+@import "./style.css";
+@import "tailwindcss";
