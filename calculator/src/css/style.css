@@ -97,6 +97,11 @@ button:hover {
   color: var(--equals-text-color);
 }
 
+.copy-alert {
+  background-color: var(--copy-alert-button-bg-color);
+  color: var(--copy-alert-text-color);
+}
+
 .transition-cover {
   background-color: var(--tansition-cover-bg-color);
   border-radius: 5%;

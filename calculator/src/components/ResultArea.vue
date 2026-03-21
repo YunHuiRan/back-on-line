@@ -5,7 +5,7 @@
         v-if="renderedString.length !== 0"
         class="w-full h-1/2 flex items-end justify-end p-4"
       >
-        <button class="copy-button">copy</button>
+        <button class="copy-button" @click="handleCopy">copy</button>
       </div>
     </Transition>
 
@@ -17,19 +17,40 @@
       </TransitionGroup>
     </Transition>
   </div>
+
+  <Transition name="copy-alert">
+    <ResultCopyAlert v-if="showCopyAlert"></ResultCopyAlert>
+  </Transition>
 </template>
 
 <script setup lang="ts">
 import { ref, type Ref, watch, nextTick } from "vue";
+import { useDebounceFn } from "@vueuse/core";
 import { useCalculationFormulaStore } from "@/store/useCalculationFormulaStore";
+import ResultCopyAlert from "./ResultCopyAlert.vue";
 
 const calculationStore = useCalculationFormulaStore();
 
 const renderedString: Ref<{ id: number; char: string }[]> = ref([]);
 const visible = ref(true);
+const showCopyAlert: Ref<boolean> = ref(false);
+
+const handleCopy = useDebounceFn(() => {
+  navigator.clipboard
+    .writeText(calculationStore.$state.rawString)
+    .then(() => {
+      showCopyAlert.value = true;
+
+      setTimeout(() => {
+        showCopyAlert.value = false;
+      }, 2000);
+    })
+    .catch((err) => {
+      console.error("copy failed:", err);
+    });
+}, 300);
 
 let idCounter = 0;
-
 watch(
   () => calculationStore.$state.rawString,
   async (newString = "", oldString = "") => {
@@ -162,5 +183,11 @@ watch(
 
 .copy-button:active {
   transform: translateY(-3px) scaleX(100%);
+}
+
+.copy-alert-enter-from,
+.copy-alert-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
 }
 </style>

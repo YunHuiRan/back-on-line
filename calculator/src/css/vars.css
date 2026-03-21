@@ -47,4 +47,7 @@
 
   --equals-button-bg-color: var(--main-color);
   --equals-text-color: #fffeec;
+
+  --copy-alter-button-bg-color: #d3d4d6;
+  --copy-alter-text-color: #111214;
 }

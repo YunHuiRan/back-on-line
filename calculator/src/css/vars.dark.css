@@ -47,4 +47,7 @@
 
   --equals-button-bg-color: var(--main-color);
   --equals-text-color: #0b0b0b;
+
+  --copy-alert-button-bg-color: #182026;
+  --copy-alert-text-color: #e6eef6;
 }

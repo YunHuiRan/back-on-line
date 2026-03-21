@@ -37,7 +37,7 @@
 import { ref, type Ref } from "vue";
 import { useCalculationFormulaStore } from "@/store/useCalculationFormulaStore";
 import SliderToggle from "./SliderToggle.vue";
-import { buttons, type ButtonDef } from "./buttonData";
+import { buttons, type ButtonDef } from "./buttonAdvanceData";
 
 type AngleUnitType = "rad" | "deg";
 
