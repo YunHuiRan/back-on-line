@@ -49,7 +49,7 @@ function createCover(rect: DOMRect): HTMLDivElement {
     width: `${rect.width}px`,
     height: `${rect.height}px`,
     opacity: "0",
-    tanslateX: "0",
+    translateX: "0",
     translateY: "0",
   });
   el.className = "transition-cover";

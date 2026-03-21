@@ -8,6 +8,11 @@
 </template>
 
 <script setup lang="ts">
+// ButtonIndex.vue
+// Top-level container for the calculator's button area. Chooses between
+// `ButtonRegularMode` and `ButtonAdvanceMode` based on the calculator mode
+// from `useCalculatorStore` and registers the element with the animation
+// instance store on mount.
 import { ref, type Ref, onMounted } from "vue";
 import { userAnimationInstance } from "@/store/useAnimationInstanceStore";
 import { useCalculatorStore } from "@/store/useCalculatorStore";

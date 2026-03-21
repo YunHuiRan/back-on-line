@@ -8,11 +8,43 @@
 * {
   overflow: hidden;
   transition: width 0.1s ease-in-out;
+  user-select: none;
+  -moz-user-select: none;
 }
 
+html,
 body {
   font-family: "SmileySans", sans-serif;
-  background-color: rgb(98, 98, 98);
+  background: none;
+  color: var(--number-text-color);
+  min-height: 100%;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity var(--bg-transition-duration) ease;
+}
+
+body::before {
+  background: linear-gradient(#f7f8fa, #e7e8ea);
+  opacity: 1;
+}
+
+body::after {
+  background: linear-gradient(#071018, #0f1720);
+  opacity: 0;
+}
+
+html.dark body::before {
+  opacity: 0;
+}
+html.dark body::after {
+  opacity: 1;
 }
 
 button:hover {
@@ -65,17 +97,18 @@ button:hover {
   color: var(--equals-text-color);
 }
 
+.copy-alert {
+  background-color: var(--copy-alert-button-bg-color);
+  color: var(--copy-alert-text-color);
+}
+
 .transition-cover {
-  background-color: #cfd3dc;
+  background-color: var(--tansition-cover-bg-color);
   border-radius: 5%;
 }
 
 @media (min-width: 768px) {
   :root {
     --calculator-container-width: 600px;
-  }
-
-  .base-button {
-    aspect-ratio: unset !important;
   }
 }

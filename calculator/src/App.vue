@@ -1,7 +1,7 @@
 <template>
   <div class="w-screen h-screen flex-center">
     <!-- calculator container -->
-    <div class="container">
+    <div class="container shadow-2xl">
       <div class="w-full h-[35%] relative">
         <!-- control buttons -->
         <ContrlIndex />
@@ -36,7 +36,5 @@ import ButtonsArea from "@/components/ButtonArea/ButtonIndex.vue";
 
   background-color: var(--calculator-container-bg-color);
   border-radius: var(--calculator-container-border-radius);
-
-  /* overflow: hidden; */
 }
 </style>

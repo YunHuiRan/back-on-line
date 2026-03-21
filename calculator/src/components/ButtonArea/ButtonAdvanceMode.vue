@@ -1,96 +1,56 @@
 <template>
   <div class="w-full h-full grid p-2 gap-2 grid-cols-5">
-    <button value="sin" class="advance-operation-button">
-      <span v-if="!isInverseMode">sin</span>
-      <span v-else>sin <sup>-1</sup></span>
-    </button>
-    <button value="cos" class="advance-operation-button">
-      <span v-if="!isInverseMode">cos</span>
-      <span v-else>cos <sup>-1</sup></span>
-    </button>
-    <button value="tan" class="advance-operation-button">
-      <span v-if="!isInverseMode">tan</span>
-      <span v-else>tan <sup>-1</sup></span>
-    </button>
     <button
-      value="rad"
-      class="advance-operation-button relative"
-      :class="angleUnit === 'rad' ? 'selected-angle-unit-button' : ''"
-      @click="toggleAngleUnit('rad')"
+      v-for="btn in buttons"
+      :key="btn.key"
+      :data-type="btn.type"
+      :value="computedValue(btn)"
+      :class="btn.class"
+      @click="handleClick(btn, $event)"
     >
-      <span>rad</span>
-      <span
-        class="absolute w-full h-full flex justify-center items-center top-0 -left-[50%]"
-      >
-        rad
-      </span>
+      <template v-if="btn.slider">
+        <SliderToggle
+          :shifted="getShifted(btn)"
+          :direction="btn.shiftDirection || 'left'"
+        >
+          <template #left v-if="btn.leftHtml">
+            <span v-html="btn.leftHtml"> </span>
+          </template>
+          <template #left v-else>{{ btn.left }}</template>
+
+          <template #right v-if="btn.rightHtml">
+            <span v-html="btn.rightHtml"></span>
+          </template>
+
+          <template #right v-else>{{ btn.right }}</template>
+        </SliderToggle>
+      </template>
+
+      <template v-else>
+        {{ btn.label ?? btn.display ?? btn.value }}
+      </template>
     </button>
-    <button
-      value="deg"
-      class="advance-operation-button relative"
-      :class="angleUnit === 'deg' ? 'selected-angle-unit-button' : ''"
-      @click="toggleAngleUnit('deg')"
-    >
-      <span>deg</span>
-      <span
-        class="absolute w-full h-full flex justify-center items-center top-0 left-[50%]"
-      >
-        deg
-      </span>
-    </button>
-    <button value="log" class="advance-operation-button">
-      <span v-if="!isInverseMode">log</span>
-      <span v-else>10<sup>^</sup></span>
-    </button>
-    <button value="ln" class="advance-operation-button">
-      <span v-if="!isInverseMode">ln</span>
-      <span v-else>e<sup>×</sup></span>
-    </button>
-    <button value="(" class="advance-operation-button">(</button>
-    <button value=")" class="advance-operation-button">)</button>
-    <button
-      value="inv"
-      class="advance-operation-button"
-      @click="toggleInverseMode"
-    >
-      inv
-    </button>
-    <button value="!" class="advance-operation-button">!</button>
-    <button value="ac" class="ac-button">ac</button>
-    <button value="del" class="del-button">del</button>
-    <button value="%" class="basic-operation-button">%</button>
-    <button value="÷" class="basic-operation-button">÷</button>
-    <button value="^" class="advance-operation-button">^</button>
-    <button value="7" class="number-button">7</button>
-    <button value="8" class="number-button">8</button>
-    <button value="9" class="number-button">9</button>
-    <button value="×" class="basic-operation-button">×</button>
-    <button value="root" class="advance-operation-button">√</button>
-    <button value="4" class="number-button">4</button>
-    <button value="5" class="number-button">5</button>
-    <button value="6" class="number-button">6</button>
-    <button value="-" class="basic-operation-button">-</button>
-    <button value="Π" class="advance-operation-button">Π</button>
-    <button value="1" class="number-button">1</button>
-    <button value="2" class="number-button">2</button>
-    <button value="3" class="number-button">3</button>
-    <button value="+" class="basic-operation-button">+</button>
-    <button value="e" class="advance-operation-button">e</button>
-    <button value="00" class="number-button">00</button>
-    <button value="0" class="number-button">0</button>
-    <button value="." class="dot-button">.</button>
-    <button value="=" class="equal-button">=</button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
+import { useCalculationFormulaStore } from "@/store/useCalculationFormulaStore";
+import SliderToggle from "./SliderToggle.vue";
+import { buttons, type ButtonDef } from "./buttonAdvanceData";
 
 type AngleUnitType = "rad" | "deg";
 
 const angleUnit: Ref<AngleUnitType> = ref("deg");
 const isInverseMode: Ref<boolean> = ref(false);
+const calculationFormulaStore = useCalculationFormulaStore();
 
+/**
+ * Toggle the angle unit between 'rad' and 'deg'.
+ * No-op if the requested unit is already active.
+ * -------------------
+ * @param {AngleUnitType} newAngleUnit - The angle unit to switch to
+ */
 function toggleAngleUnit(newAngleUnit: AngleUnitType): void {
   if (angleUnit.value === newAngleUnit) return;
   angleUnit.value = newAngleUnit;
@@ -98,10 +58,68 @@ function toggleAngleUnit(newAngleUnit: AngleUnitType): void {
   console.log(`angle unit changed to ${newAngleUnit}`);
 }
 
+/**
+ * Toggle the inverse-function mode (affects sin/cos/tan, log/ln, etc.).
+ */
 function toggleInverseMode(): void {
   isInverseMode.value = !isInverseMode.value;
 
   console.log(`inverse mode ${isInverseMode.value ? "enabled" : "disabled"}`);
+}
+
+/**
+ * Compute the actual value to send to the calculation store depending on
+ * whether inverse mode is active.
+ * -------------------
+ * @param {ButtonDef} btn - Button descriptor
+ * @returns {string} value to forward to the store
+ */
+function computedValue(btn: ButtonDef): string {
+  if (btn.altValue && isInverseMode.value) return btn.altValue;
+  return btn.value;
+}
+
+/**
+ * Determine whether a button's slider should be in the shifted state.
+ * - For `inverse` shiftWith: depends on `isInverseMode`
+ * - For `angle` shiftWith: depends on `angleUnit`
+ * -------------------
+ * @param {ButtonDef} btn - Button descriptor
+ * @returns {boolean} whether slider is shifted
+ */
+function getShifted(btn: ButtonDef): boolean {
+  if (btn.shiftWith === "inverse") return isInverseMode.value;
+  if (btn.shiftWith === "angle")
+    return (
+      angleUnit.value === (btn.shiftParam as AngleUnitType) ||
+      angleUnit.value === btn.shiftParam
+    );
+  return false;
+}
+
+/**
+ * Handle a button click for advanced buttons. Some buttons trigger local
+ * toggles (angle/inverse) while others forward a value/type to the
+ * calculation store.
+ * -------------------
+ * @param {ButtonDef} btn - Button descriptor
+ * @param {MouseEvent=} _ - Click event (optional)
+ */
+function handleClick(btn: ButtonDef, _?: MouseEvent): void {
+  if (btn.onClickType === "toggleAngleUnit" && btn.onClickParam) {
+    toggleAngleUnit(btn.onClickParam as AngleUnitType);
+    return;
+  }
+
+  if (btn.onClickType === "toggleInverseMode") {
+    toggleInverseMode();
+    return;
+  }
+
+  const value = computedValue(btn);
+  const type = btn.type || "";
+
+  calculationFormulaStore.addToRawString(value, type);
 }
 </script>
 
@@ -110,9 +128,45 @@ button {
   font-size: var(--base-font-size);
   border-radius: var(--base-button-radius);
   border: 1px solid var(--base-button-border-color);
+  transition: all 0.2s ease-in-out;
 }
 
 button:hover {
   filter: brightness(90%);
+  transform: translateY(-5px) scaleX(105%);
+}
+
+button:active {
+  filter: brightness(100%);
+  transform: translateY(-3px) scaleX(100%);
+}
+
+html[class="dark"] button:hover {
+  filter: brightness(200%);
+  transform: translateY(-5px) scaleX(105%);
+}
+
+html[class="dark"] button:active {
+  filter: brightness(100%);
+  transform: translateY(-3px) scaleX(100%);
+}
+
+.slider-container {
+  width: 200%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  transition: translate 0.3s ease-in-out;
+}
+
+.selected-angle-unit-button {
+  color: var(--main-color);
+}
+
+.deg-slider div {
+  transform: translateX(-50%);
 }
 </style>

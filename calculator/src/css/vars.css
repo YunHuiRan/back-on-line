@@ -1,4 +1,14 @@
 :root {
+  --main-color: #fd9338;
+
+  --bg-gradient-start: #f7f8fa;
+  --bg-gradient-end: #e7e8ea;
+  --bg-transition-duration: 300ms;
+
+  --toggle-symbol-color: #111214;
+
+  --tansition-cover-bg-color: #dedede;
+
   --calculator-container-bg-color: #e7e8ea;
   --calculator-container-width: 420px;
   --calculator-container-min-width: 420px;
@@ -33,8 +43,11 @@
   --advance-operation-text-color: #6d6d6d;
 
   --selected-angle-unit-bg-color: #e9e9e9;
-  --selected-angle-unit-text-color: #fd9338;
+  --selected-angle-unit-text-color: var(--main-color);
 
-  --equals-button-bg-color: #fd9338;
+  --equals-button-bg-color: var(--main-color);
   --equals-text-color: #fffeec;
+
+  --copy-alter-button-bg-color: #d3d4d6;
+  --copy-alter-text-color: #111214;
 }
