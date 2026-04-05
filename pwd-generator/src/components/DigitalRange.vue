@@ -19,16 +19,18 @@
     <div class="digital-range">
       <div v-for="i in segments" :key="i" class="segements">
         <!-- segment label -->
-        <span
-          v-if="
-            props.min - 1 + i === props.min ||
-            props.min - 1 + i === props.max ||
-            props.min - 1 + i === model
-          "
-          class="segements-label"
-        >
-          {{ props.min - 1 + i }}
-        </span>
+        <transition name="glitch">
+          <div
+            v-if="
+              props.min + i - 1 === model ||
+              props.min + i - 1 === props.min ||
+              props.min + i - 1 === props.max
+            "
+            class="segements-label"
+          >
+            {{ props.min + i - 1 }}
+          </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -151,6 +153,7 @@ onMounted(() => {
 .slider-wrapper {
   position: absolute;
   transition: none;
+  z-index: 3;
 
   &:hover {
     cursor: pointer;
@@ -189,10 +192,11 @@ onMounted(() => {
 
 .segements-label {
   position: absolute;
-  top: 20px;
+  top: -30px;
   left: -7px;
   width: 25px;
   height: 25px;
-  text-align: center;
+  text-align: center !important;
+  color: var(--main-color-blue);
 }
 </style>
