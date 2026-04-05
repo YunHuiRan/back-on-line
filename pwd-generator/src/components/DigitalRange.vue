@@ -12,7 +12,7 @@
       :class="{ snapping: isSnapping }"
       :style="style"
     >
-      <CyberButton width="25" height="25"> </CyberButton>
+      <CyberButton width="25" height="25" theme="blue"> </CyberButton>
     </div>
 
     <!-- segements -->

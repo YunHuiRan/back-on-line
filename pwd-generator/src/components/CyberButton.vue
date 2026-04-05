@@ -19,11 +19,10 @@ const props = defineProps({
   text: {
     type: String,
     default: "",
-    requied: false,
   },
-  color: {
+  theme: {
     type: String,
-    default: "#FF0000",
+    default: "red",
   },
   width: {
     type: [String, Number],
@@ -43,9 +42,27 @@ const props = defineProps({
   },
 });
 
+const themeMap = {
+  red: {
+    primary: "#FF003C",
+    shadowPrimary: "#00ffff",
+    shadowSecondary: "#ffff00",
+  },
+  blue: {
+    primary: "#00ffff",
+    shadowPrimary: "#FF003C",
+    shadowSecondary: "#00ff88",
+  },
+};
+
 const customStyle = computed(() => {
+  const theme = themeMap[props.theme] || themeMap.red;
+
   return {
-    "--btn-color": props.color,
+    "--btn-color": theme.primary,
+    "--shadow-primary": theme.shadowPrimary,
+    "--shadow-secondary": theme.shadowSecondary,
+
     width: isNaN(props.width) ? props.width : `${props.width}px`,
     height: isNaN(props.height) ? props.height : `${props.height}px`,
     "line-height": isNaN(props.height) ? props.height : `${props.height}px`,
@@ -57,8 +74,8 @@ const customStyle = computed(() => {
 <style scoped>
 .cybr-btn {
   --primary: var(--btn-color);
-  --shadow-primary: #00ffff;
-  --shadow-secondary: #ffff00;
+  --shadow-primary: var(--shadow-primary);
+  --shadow-secondary: var(--shadow-secondary);
   --color: #ffffff;
 
   --label-size: 9px;
