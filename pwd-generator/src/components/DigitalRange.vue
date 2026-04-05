@@ -12,7 +12,7 @@
       :class="{ snapping: isSnapping }"
       :style="style"
     >
-      <div class="slider"></div>
+      <CyberButton width="25" height="25"> </CyberButton>
     </div>
 
     <!-- segements -->
@@ -39,6 +39,7 @@
 <script setup lang="ts">
 import { ref, type Ref, computed, onMounted } from "vue";
 import { useDraggable } from "@vueuse/core";
+import CyberButton from "./CyberButton.vue";
 
 const props = defineProps<{
   min: number;
@@ -162,14 +163,6 @@ onMounted(() => {
 
 .snapping {
   transition: left 0.2s ease;
-}
-
-.slider {
-  width: 25px;
-  height: 25px;
-  background-color: var(--main-color-blue);
-  border-top-right-radius: 10px;
-  corner-shape: superellipse(0);
 }
 
 .digital-range {
