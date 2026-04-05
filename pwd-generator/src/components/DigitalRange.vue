@@ -1,13 +1,13 @@
 <template>
   <div
-    ref="digitalRangeWrapperRef"
+    ref="wrapperRef"
     class="digital-range-wrapper hover:cursor-pointer"
-    @click="snapToClosestSegmentOnClick($event)"
+    @click="snapToClosest($event)"
     v-bind="$attrs"
   >
     <!-- slider -->
     <div
-      ref="sliderWrapper"
+      ref="sliderRef"
       class="slider-wrapper"
       :class="{ snapping: isSnapping }"
       :style="style"
@@ -17,112 +17,127 @@
 
     <!-- segements -->
     <div class="digital-range">
-      <div v-for="i in segments" :key="i" class="segements"></div>
+      <div v-for="i in segments" :key="i" class="segements">
+        <!-- segment label -->
+        <span
+          v-if="
+            props.min - 1 + i === props.min ||
+            props.min - 1 + i === props.max ||
+            props.min - 1 + i === model
+          "
+          class="segements-label"
+        >
+          {{ props.min - 1 + i }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, type Ref, onMounted } from "vue";
+import { ref, type Ref, computed, onMounted } from "vue";
 import { useDraggable } from "@vueuse/core";
 
 const props = defineProps<{
   min: number;
   max: number;
+  modelValue: number;
 }>();
+
+const emit = defineEmits(["update:modelValue"]);
+
+const model = computed({
+  get: () => props.modelValue,
+  set: (val) => emit("update:modelValue", val),
+});
 
 const segments = computed(() => props.max - props.min + 1);
 const segmentsPositions: Ref<number[]> = ref([]);
 
-const digitalRangeWrapperRef = ref<HTMLDivElement | null>(null);
-const sliderWrapper = ref<HTMLDivElement | null>(null);
+const wrapperRef = ref<HTMLDivElement | null>(null);
+const sliderRef = ref<HTMLDivElement | null>(null);
 
 const isSnapping: Ref<boolean> = ref(false);
 
-const { x, y, style } = useDraggable(sliderWrapper, {
-  containerElement: digitalRangeWrapperRef,
+const { x, y, style } = useDraggable(sliderRef, {
+  containerElement: wrapperRef,
 
   onEnd: () => {
-    isSnapping.value = true;
-
-    const closest = segmentsPositions.value.reduce((prev, curr) =>
-      Math.abs(curr - x.value) < Math.abs(prev - x.value) ? curr : prev,
-    );
-
-    x.value = closest;
-
-    setTimeout(() => {
-      isSnapping.value = false;
-    }, 200);
+    snapToClosest();
   },
 });
 
 /**
- * Initializes the slider's position to the first segment when the component is mounted.
- * It calculates the position based on the first segment's location and centers the slider on it.
+ * Initializes the positions of the segments and sets the initial position of the slider.
+ * It calculates the left position of each segment relative to the wrapper and stores it in the segmentsPositions array.
+ * The slider is then positioned at the initial value based on the first segment's position.
  */
-function initalizeSliderPosition() {
-  if (!digitalRangeWrapperRef.value) return;
+function initSegments() {
+  if (!wrapperRef.value) return;
 
-  const segement =
-    digitalRangeWrapperRef.value.querySelectorAll(".segements")[0];
-  const { left, top } = segement.getBoundingClientRect();
-  const { left: wrapperLeft, top: wrapperTop } =
-    digitalRangeWrapperRef.value.getBoundingClientRect();
+  const segements = wrapperRef.value.querySelectorAll(".segements");
+  const firstSegment = segements[0];
 
-  x.value = left - wrapperLeft + segement.clientWidth / 2 - 12.5;
-  y.value = top - wrapperTop + segement.clientHeight / 2 - 12;
-}
-
-/**
- * Calculates the horizontal positions of each segment within the digital range.
- * It retrieves the left position of each segment relative to the wrapper and stores it in the segmentsPositions array.
- * This allows for snapping the slider to the closest segment when dragging ends.
- */
-function getSegmentsPositions() {
-  if (!digitalRangeWrapperRef.value) return;
-
-  const segements = digitalRangeWrapperRef.value.querySelectorAll(".segements");
-
+  // get the left position of each segment relative to the wrapper and store it in segmentsPositions
   segements.forEach((segment) => {
     const { left } = segment.getBoundingClientRect();
-    const { left: wrapperLeft } =
-      digitalRangeWrapperRef.value!.getBoundingClientRect();
+    const { left: wrapperLeft } = wrapperRef.value!.getBoundingClientRect();
     segmentsPositions.value.push(
       left - wrapperLeft + segment.clientWidth / 2 - 12.5,
     );
   });
+
+  // position the slider at the initial value
+  const { left, top } = firstSegment.getBoundingClientRect();
+  const { left: wrapperLeft, top: wrapperTop } =
+    wrapperRef.value.getBoundingClientRect();
+
+  x.value = left - wrapperLeft + firstSegment.clientWidth / 2 - 12.5;
+  y.value = top - wrapperTop + firstSegment.clientHeight / 2 - 12;
 }
 
 /**
- * Handles click events on the digital range wrapper to set the slider's position.
- * It calculates the click position relative to the wrapper and snaps the slider to the closest segment.
- * The snapping effect is achieved by temporarily setting the isSnapping flag, which triggers a CSS transition.
+ * Snaps the slider to the closest segment position when dragging ends or when the wrapper is clicked.
+ * It calculates the current horizontal position of the slider and finds the closest segment position from the segmentsPositions array.
+ * The slider's position is then updated to snap to that closest segment, and the model value is updated accordingly.
+ * A temporary snapping state is set to trigger a CSS transition for smooth snapping effect.
  *
- * @param event - The mouse event triggered by clicking on the digital range wrapper.
+ * @param event - The mouse event triggered on click, used to calculate the current position of the slider.
  */
-function snapToClosestSegmentOnClick(event: MouseEvent) {
-  if (!digitalRangeWrapperRef.value) return;
+function snapToClosest(event?: MouseEvent) {
+  if (!segmentsPositions.value.length) return;
 
-  const { left } = digitalRangeWrapperRef.value.getBoundingClientRect();
-  const clickX = event.clientX - left;
-
-  isSnapping.value = true;
+  const currentX = event
+    ? event.clientX - wrapperRef.value!.getBoundingClientRect().left
+    : x.value;
 
   const closest = segmentsPositions.value.reduce((prev, curr) =>
-    Math.abs(curr - clickX) < Math.abs(prev - clickX) ? curr : prev,
+    Math.abs(curr - currentX) < Math.abs(prev - currentX) ? curr : prev,
   );
 
+  isSnapping.value = true;
   x.value = closest;
 
-  setTimeout(() => {
-    isSnapping.value = false;
-  }, 200);
+  updateModelValue();
+
+  setTimeout(() => (isSnapping.value = false), 200);
+}
+
+/**
+ * Updates the model value based on the current position of the slider.
+ * It finds the index of the closest segment position and calculates the corresponding value based on the minimum value and the index.
+ * The model value is then updated to reflect the new selection.
+ */
+function updateModelValue() {
+  const closestIndex = segmentsPositions.value.findIndex(
+    (p) => Math.abs(p - x.value) < 1,
+  );
+
+  model.value = props.min + closestIndex;
 }
 
 onMounted(() => {
-  initalizeSliderPosition();
-  getSegmentsPositions();
+  initSegments();
 });
 </script>
 
@@ -164,10 +179,20 @@ onMounted(() => {
 }
 
 .segements {
+  position: relative;
   display: flex;
   width: 10px;
   height: 10px;
   margin: 0 10px;
-  /* background-color: lightblue; */
+  /* background-color: var(--main-color-blue); */
+}
+
+.segements-label {
+  position: absolute;
+  top: 20px;
+  left: -7px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
 }
 </style>
