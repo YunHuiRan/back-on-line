@@ -1,0 +1,13 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(25, 25, 25);
+}
+
+#app {
+  width: 90%;
+  height: 90%;
+}
