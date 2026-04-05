@@ -35,7 +35,11 @@ const props = defineProps({
   },
   tag: {
     type: String,
-    default: "RAN",
+    default: "",
+  },
+  fontSize: {
+    type: [String, Number],
+    default: "26px",
   },
 });
 
@@ -45,6 +49,7 @@ const customStyle = computed(() => {
     width: isNaN(props.width) ? props.width : `${props.width}px`,
     height: isNaN(props.height) ? props.height : `${props.height}px`,
     "line-height": isNaN(props.height) ? props.height : `${props.height}px`,
+    "font-size": isNaN(props.fontSize) ? props.fontSize : `${props.fontSize}px`,
   };
 });
 </script>
