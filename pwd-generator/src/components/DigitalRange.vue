@@ -65,6 +65,7 @@ const isSnapping: Ref<boolean> = ref(false);
 const { x, y, style } = useDraggable(sliderRef, {
   containerElement: wrapperRef,
   preventDefault: true,
+  axis: "x",
 
   onEnd: () => {
     snapToClosest();
@@ -155,6 +156,7 @@ onMounted(() => {
 .slider-wrapper {
   position: absolute;
   transition: none;
+  overflow: hidden;
   z-index: 3;
 
   &:hover {

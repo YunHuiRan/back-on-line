@@ -170,6 +170,7 @@ const customStyle = computed(() => {
     0 70%
   );
 
+  position: relative;
   font-family: "Cyber", sans-serif;
   color: var(--color);
   cursor: pointer;
@@ -186,6 +187,7 @@ const customStyle = computed(() => {
 .cybr-btn:hover {
   filter: brightness(0.8);
 }
+
 .cybr-btn:active {
   filter: brightness(0.6);
 }
@@ -201,10 +203,12 @@ const customStyle = computed(() => {
   clip-path: var(--clip);
   z-index: -1;
 }
+
 .cybr-btn::before {
   background: var(--shadow-primary);
   transform: translate(var(--border), 0);
 }
+
 .cybr-btn::after {
   background: var(--primary);
 }
@@ -234,10 +238,13 @@ const customStyle = computed(() => {
   clip-path: var(--clip);
   animation: glitch 2s infinite;
   display: none;
+  pointer-events: none;
 }
+
 .cybr-btn:hover .cybr-btn__glitch {
   display: block;
 }
+
 .cybr-btn__glitch::before {
   content: "";
   position: absolute;
