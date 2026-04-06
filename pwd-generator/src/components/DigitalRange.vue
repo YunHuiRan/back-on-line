@@ -64,6 +64,7 @@ const isSnapping: Ref<boolean> = ref(false);
 
 const { x, y, style } = useDraggable(sliderRef, {
   containerElement: wrapperRef,
+  preventDefault: true,
 
   onEnd: () => {
     snapToClosest();
@@ -188,7 +189,6 @@ onMounted(() => {
   top: -30px;
   left: -7px;
   width: 25px;
-  height: 25px;
   text-align: center !important;
   color: var(--main-color-blue);
 }
