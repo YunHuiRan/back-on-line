@@ -103,11 +103,6 @@ const { x, y, style } = useDraggable(sliderRef, {
   },
 });
 
-/**
- * Initializes the positions of the segments and sets the initial position of the slider.
- * It calculates the left position of each segment relative to the wrapper and stores it in the segmentsPositions array.
- * The slider is then positioned at the initial value based on the first segment's position.
- */
 function initSegments() {
   if (!wrapperRef.value || !sliderWrapperRef.value) return;
 
@@ -140,14 +135,6 @@ function initSegments() {
   updateModelValue();
 }
 
-/**
- * Snaps the slider to the closest segment position when dragging ends or when the wrapper is clicked.
- * It calculates the current horizontal position of the slider and finds the closest segment position from the segmentsPositions array.
- * The slider's position is then updated to snap to that closest segment, and the model value is updated accordingly.
- * A temporary snapping state is set to trigger a CSS transition for smooth snapping effect.
- *
- * @param event - The mouse event triggered on click, used to calculate the current position of the slider.
- */
 function snapToClosest(event?: MouseEvent) {
   if (!segmentsPositions.value.length) return;
 
@@ -167,11 +154,6 @@ function snapToClosest(event?: MouseEvent) {
   setTimeout(() => (isSnapping.value = false), 200);
 }
 
-/**
- * Updates the model value based on the current position of the slider.
- * It finds the index of the closest segment position and calculates the corresponding value based on the minimum value and the index.
- * The model value is then updated to reflect the new selection.
- */
 function updateModelValue() {
   const closestIndex = segmentsPositions.value.findIndex(
     (p) => Math.abs(p - x.value) < 1,
@@ -193,14 +175,10 @@ function updateSliderPositionByValue(value: number) {
 
 const decreaseValue = useThrottleFn(() => {
   model.value - 1 < props.min ? (model.value = props.min) : model.value--;
-
-  updateSliderPositionByValue(model.value);
 }, 200);
 
 const increaseValue = useThrottleFn(() => {
   model.value + 1 > props.max ? (model.value = props.max) : model.value++;
-
-  updateSliderPositionByValue(model.value);
 }, 200);
 
 onMounted(() => {
@@ -251,12 +229,12 @@ watch(
 }
 
 .snapping {
-  transition: left 0.2s ease;
+  transition: left 0.18s cubic-bezier(0.2, 0.8, 0.4, 1);
 }
 
 .digital-range {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   height: 3px;
   width: 100%;
