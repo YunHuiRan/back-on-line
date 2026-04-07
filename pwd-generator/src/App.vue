@@ -7,7 +7,7 @@
       <template #content>
         <DigitalRange
           :min="8"
-          :max="16"
+          :max="20"
           v-model:model-value="generatorStore.length"
         ></DigitalRange>
       </template>
@@ -20,8 +20,8 @@
 <script setup lang="ts">
 import { watch } from "vue";
 import DigitalRange from "./components/DigitalRange.vue";
-import { useGeneratorStore } from "./store/generatorStore.ts";
 import TabelRow from "./components/TabelRow.vue";
+import { useGeneratorStore } from "./store/generatorStore.ts";
 
 const generatorStore = useGeneratorStore();
 

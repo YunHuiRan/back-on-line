@@ -28,8 +28,8 @@
 
 .table-label {
   width: 15%;
-  font-size: 1.5rem;
-  justify-content: end;
+  font-size: var(--base-font-size);
+  justify-content: start;
   padding-right: 1rem;
 }
 

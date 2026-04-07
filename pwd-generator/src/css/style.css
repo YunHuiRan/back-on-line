@@ -17,7 +17,7 @@ body {
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background-color: rgb(10, 10, 10);
+  background: linear-gradient(to bottom, #632b36, #000000);
 }
 
 #app {

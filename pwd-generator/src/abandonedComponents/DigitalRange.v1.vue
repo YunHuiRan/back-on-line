@@ -1,7 +1,7 @@
 <template>
   <div
     ref="wrapperRef"
-    class="digital-range-wrapper"
+    class="digital-range-wrapper hover:cursor-pointer"
     @click="snapToClosest($event)"
     v-bind="$attrs"
   >
@@ -12,17 +12,26 @@
       :class="{ snapping: isSnapping }"
       :style="style"
     >
-      <CyberButton
-        :text="props.modelValue.toString()"
-        width="80px"
-        height="40px"
-      >
-      </CyberButton>
+      <CyberButton width="25" height="25" theme="blue"> </CyberButton>
     </div>
 
     <!-- segements -->
     <div class="digital-range">
-      <div v-for="i in segments" :key="i" class="segements"></div>
+      <div v-for="i in segments" :key="i" class="segements">
+        <!-- segment label -->
+        <transition name="glitch">
+          <div
+            v-if="
+              props.min + i - 1 === model ||
+              props.min + i - 1 === props.min ||
+              props.min + i - 1 === props.max
+            "
+            class="segements-label"
+          >
+            {{ props.min + i - 1 }}
+          </div>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -79,8 +88,7 @@ function initSegments() {
     const { left } = segment.getBoundingClientRect();
     const { left: wrapperLeft } = wrapperRef.value!.getBoundingClientRect();
     segmentsPositions.value.push(
-      left - wrapperLeft + segment.clientWidth / 2 - 40,
-      // the magic number here is half of the button's width
+      left - wrapperLeft + segment.clientWidth / 2 - 12.5,
     );
   });
 
@@ -89,11 +97,8 @@ function initSegments() {
   const { left: wrapperLeft, top: wrapperTop } =
     wrapperRef.value.getBoundingClientRect();
 
-  x.value = left - wrapperLeft + firstSegment.clientWidth / 2 - 40;
-  // the magic number here is half of the button's width
-  y.value = top - wrapperTop + firstSegment.clientHeight / 2 - 20;
-  // the magic number here is half of the button's height
-  updateModelValue();
+  x.value = left - wrapperLeft + firstSegment.clientWidth / 2 - 12.5;
+  y.value = top - wrapperTop + firstSegment.clientHeight / 2 - 12;
 }
 
 /**
@@ -144,15 +149,8 @@ onMounted(() => {
 <style scoped>
 .digital-range-wrapper {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   height: 15px;
-
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 .slider-wrapper {
@@ -174,9 +172,9 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 3px;
-  width: 100%;
-  background-color: var(--main-color-red);
+  height: 100%;
+  border: 4px solid var(--main-color-red);
+  border-top-right-radius: 12px;
 }
 
 .segements {
@@ -184,6 +182,16 @@ onMounted(() => {
   display: flex;
   width: 10px;
   height: 10px;
+  margin: 0 10px;
   /* background-color: var(--main-color-blue); */
+}
+
+.segements-label {
+  position: absolute;
+  top: -30px;
+  left: -7px;
+  width: 25px;
+  text-align: center !important;
+  color: var(--main-color-blue);
 }
 </style>

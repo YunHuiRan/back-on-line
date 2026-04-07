@@ -1,12 +1,15 @@
 <template>
   <button class="cybr-btn" :style="customStyle">
     <slot>{{ props.text }}</slot>
+    <span aria-hidden>_</span>
 
     <span aria-hidden class="cybr-btn__glitch">
       <slot>{{ props.text }}</slot>
     </span>
 
-    <span aria-hidden class="cybr-btn__tag"> </span>
+    <span aria-hidden class="cybr-btn__tag">
+      {{ tag }}
+    </span>
   </button>
 </template>
 
@@ -18,6 +21,10 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  theme: {
+    type: String,
+    default: "red",
+  },
   width: {
     type: [String, Number],
     default: "300px",
@@ -26,20 +33,52 @@ const props = defineProps({
     type: [String, Number],
     default: "75px",
   },
+  tag: {
+    type: String,
+    default: "",
+  },
+  fontSize: {
+    type: [String, Number],
+    default: "26px",
+  },
 });
 
+const themeMap = {
+  red: {
+    primary: "#FF003C",
+    shadowPrimary: "#00ffff",
+    shadowSecondary: "#ffff00",
+  },
+  blue: {
+    primary: "#00ffff",
+    shadowPrimary: "#FF003C",
+    shadowSecondary: "#00ff88",
+  },
+};
+
 const customStyle = computed(() => {
+  const theme = themeMap[props.theme] || themeMap.red;
+
   return {
+    "--btn-color": theme.primary,
+    "--shadow-primary": theme.shadowPrimary,
+    "--shadow-secondary": theme.shadowSecondary,
+
     width: isNaN(props.width) ? props.width : `${props.width}px`,
     height: isNaN(props.height) ? props.height : `${props.height}px`,
     "line-height": isNaN(props.height) ? props.height : `${props.height}px`,
+    "font-size": isNaN(props.fontSize) ? props.fontSize : `${props.fontSize}px`,
   };
 });
 </script>
 
 <style scoped>
 .cybr-btn {
-  font-size: var(--base-font-size);
+  --primary: var(--btn-color);
+  --shadow-primary: var(--shadow-primary);
+  --shadow-secondary: var(--shadow-secondary);
+  --color: #ffffff;
+
   --label-size: 9px;
   --clip: polygon(
     0 0,
@@ -134,7 +173,7 @@ const customStyle = computed(() => {
 
   position: relative;
   font-family: "Cyber", sans-serif;
-  color: white;
+  color: var(--color);
   cursor: pointer;
   background: transparent;
   text-transform: uppercase;
@@ -167,12 +206,12 @@ const customStyle = computed(() => {
 }
 
 .cybr-btn::before {
-  background: var(--main-color-blue);
+  background: var(--shadow-primary);
   transform: translate(var(--border), 0);
 }
 
 .cybr-btn::after {
-  background: var(--main-color-red);
+  background: var(--primary);
 }
 
 .cybr-btn__tag {
@@ -193,10 +232,10 @@ const customStyle = computed(() => {
   left: calc(var(--border) * -1);
   right: calc(var(--border) * -1);
   bottom: calc(var(--border) * -1);
-  background: var(--main-color-blue);
+  background: var(--shadow-primary);
   text-shadow:
-    2px 2px var(--main-color-blue),
-    -2px -2px var(--main-color-yellow);
+    2px 2px var(--shadow-primary),
+    -2px -2px var(--shadow-secondary);
   clip-path: var(--clip);
   animation: glitch 2s infinite;
   display: none;
@@ -215,7 +254,7 @@ const customStyle = computed(() => {
   bottom: calc(var(--border) * 1);
   left: calc(var(--border) * 1);
   clip-path: var(--clip);
-  background: var(--main-color-red);
+  background: var(--primary);
   z-index: -1;
 }
 
