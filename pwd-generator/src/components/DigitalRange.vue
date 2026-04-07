@@ -3,27 +3,34 @@
     ref="wrapperRef"
     class="digital-range-wrapper"
     @click="snapToClosest($event)"
-    v-bind="$attrs"
   >
+    <!-- length - 1 -->
+    <button class="w-[10%] h-full bg-red-300"><</button>
+
     <!-- slider -->
-    <div
-      ref="sliderRef"
-      class="slider-wrapper"
-      :class="{ snapping: isSnapping }"
-      :style="style"
-    >
-      <CyberButton
-        :text="props.modelValue.toString()"
-        width="80px"
-        height="40px"
+    <div ref="sliderWrapperRef" class="slider-wrapper bg-red-300">
+      <div
+        ref="sliderRef"
+        class="slider"
+        :class="{ snapping: isSnapping }"
+        :style="style"
       >
-      </CyberButton>
+        <CyberButton
+          :text="props.modelValue.toString()"
+          width="80px"
+          height="40px"
+        >
+        </CyberButton>
+      </div>
+
+      <!-- segements -->
+      <div class="digital-range">
+        <div v-for="i in segments" :key="i" class="segements"></div>
+      </div>
     </div>
 
-    <!-- segements -->
-    <div class="digital-range">
-      <div v-for="i in segments" :key="i" class="segements"></div>
-    </div>
+    <!-- lenght + 1 -->
+    <button class="w-[10%] h-full bg-red-300">></button>
   </div>
 </template>
 
@@ -49,12 +56,13 @@ const segments = computed(() => props.max - props.min + 1);
 const segmentsPositions: Ref<number[]> = ref([]);
 
 const wrapperRef = ref<HTMLDivElement | null>(null);
+const sliderWrapperRef = ref<HTMLDivElement | null>(null);
 const sliderRef = ref<HTMLDivElement | null>(null);
 
 const isSnapping: Ref<boolean> = ref(false);
 
 const { x, y, style } = useDraggable(sliderRef, {
-  containerElement: wrapperRef,
+  containerElement: sliderWrapperRef,
   preventDefault: true,
   axis: "x",
 
@@ -69,7 +77,7 @@ const { x, y, style } = useDraggable(sliderRef, {
  * The slider is then positioned at the initial value based on the first segment's position.
  */
 function initSegments() {
-  if (!wrapperRef.value) return;
+  if (!wrapperRef.value || !sliderWrapperRef.value) return;
 
   const segements = wrapperRef.value.querySelectorAll(".segements");
   const firstSegment = segements[0];
@@ -77,7 +85,8 @@ function initSegments() {
   // get the left position of each segment relative to the wrapper and store it in segmentsPositions
   segements.forEach((segment) => {
     const { left } = segment.getBoundingClientRect();
-    const { left: wrapperLeft } = wrapperRef.value!.getBoundingClientRect();
+    const { left: wrapperLeft } =
+      sliderWrapperRef.value!.getBoundingClientRect();
     segmentsPositions.value.push(
       left - wrapperLeft + segment.clientWidth / 2 - 40,
       // the magic number here is half of the button's width
@@ -87,12 +96,13 @@ function initSegments() {
   // position the slider at the initial value
   const { left, top } = firstSegment.getBoundingClientRect();
   const { left: wrapperLeft, top: wrapperTop } =
-    wrapperRef.value.getBoundingClientRect();
+    sliderWrapperRef.value.getBoundingClientRect();
 
   x.value = left - wrapperLeft + firstSegment.clientWidth / 2 - 40;
   // the magic number here is half of the button's width
   y.value = top - wrapperTop + firstSegment.clientHeight / 2 - 20;
   // the magic number here is half of the button's height
+
   updateModelValue();
 }
 
@@ -108,7 +118,7 @@ function snapToClosest(event?: MouseEvent) {
   if (!segmentsPositions.value.length) return;
 
   const currentX = event
-    ? event.clientX - wrapperRef.value!.getBoundingClientRect().left
+    ? event.clientX - sliderWrapperRef.value!.getBoundingClientRect().left
     : x.value;
 
   const closest = segmentsPositions.value.reduce((prev, curr) =>
@@ -147,8 +157,9 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
   width: 100%;
-  height: 15px;
+  height: 100%;
 
   &:hover {
     cursor: pointer;
@@ -156,6 +167,15 @@ onMounted(() => {
 }
 
 .slider-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slider {
   position: absolute;
   transition: none;
   overflow: hidden;
@@ -172,7 +192,7 @@ onMounted(() => {
 
 .digital-range {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   height: 3px;
   width: 100%;

@@ -16,8 +16,8 @@
 .tabel-container {
   display: flex;
   width: 100%;
+  min-height: 40px;
   flex-direction: row;
-  gap: 0.5rem;
   margin-bottom: 2rem;
 
   div {
