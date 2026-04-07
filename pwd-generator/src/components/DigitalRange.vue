@@ -1,14 +1,27 @@
 <template>
-  <div
-    ref="wrapperRef"
-    class="digital-range-wrapper"
-    @click="snapToClosest($event)"
-  >
+  <div ref="wrapperRef" class="digital-range-wrapper">
     <!-- length - 1 -->
-    <button class="w-[10%] h-full bg-red-300"><</button>
+    <div
+      @click="decreaseValue"
+      @mouseenter="isHoverMinus = true"
+      @mouseleave="isHoverMinus = false"
+      class="w-[10%] h-full flex items-center justify-center pr-2"
+    >
+      <Transition name="glitch">
+        <span
+          v-if="!isHoverMinus"
+          class="icon icon-arrow-left-linear text-2xl"
+        ></span>
+        <span v-else class="icon icon-arrow-left-solid text-2xl"></span>
+      </Transition>
+    </div>
 
     <!-- slider -->
-    <div ref="sliderWrapperRef" class="slider-wrapper bg-red-300">
+    <div
+      ref="sliderWrapperRef"
+      class="slider-wrapper"
+      @click="snapToClosest($event)"
+    >
       <div
         ref="sliderRef"
         class="slider"
@@ -30,13 +43,29 @@
     </div>
 
     <!-- lenght + 1 -->
-    <button class="w-[10%] h-full bg-red-300">></button>
+    <div
+      @click="increaseValue"
+      @mouseenter="isHoverPlus = true"
+      @mouseleave="isHoverPlus = false"
+      class="w-[10%] h-full flex items-center justify-center pr-2"
+    >
+      <Transition name="glitch">
+        <span
+          v-if="!isHoverPlus"
+          class="icon icon-arrow-left-linear text-2xl rotate-180"
+        ></span>
+        <span
+          v-else
+          class="icon icon-arrow-left-solid text-2xl rotate-180"
+        ></span>
+      </Transition>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref, computed, onMounted } from "vue";
-import { useDraggable } from "@vueuse/core";
+import { ref, type Ref, computed, onMounted, watch } from "vue";
+import { useDraggable, useThrottleFn } from "@vueuse/core";
 import CyberButton from "./CyberButton.vue";
 
 const props = defineProps<{
@@ -61,6 +90,9 @@ const sliderRef = ref<HTMLDivElement | null>(null);
 
 const isSnapping: Ref<boolean> = ref(false);
 
+const isHoverMinus: Ref<boolean> = ref(false);
+const isHoverPlus: Ref<boolean> = ref(false);
+
 const { x, y, style } = useDraggable(sliderRef, {
   containerElement: sliderWrapperRef,
   preventDefault: true,
@@ -78,6 +110,8 @@ const { x, y, style } = useDraggable(sliderRef, {
  */
 function initSegments() {
   if (!wrapperRef.value || !sliderWrapperRef.value) return;
+
+  segmentsPositions.value = [];
 
   const segements = wrapperRef.value.querySelectorAll(".segements");
   const firstSegment = segements[0];
@@ -146,9 +180,39 @@ function updateModelValue() {
   model.value = props.min + closestIndex;
 }
 
+function updateSliderPositionByValue(value: number) {
+  if (!segmentsPositions.value.length) return;
+
+  const index = value - props.min;
+  if (index >= 0 && index < segmentsPositions.value.length) {
+    isSnapping.value = true;
+    x.value = segmentsPositions.value[index];
+    setTimeout(() => (isSnapping.value = false), 200);
+  }
+}
+
+const decreaseValue = useThrottleFn(() => {
+  model.value - 1 < props.min ? (model.value = props.min) : model.value--;
+
+  updateSliderPositionByValue(model.value);
+}, 200);
+
+const increaseValue = useThrottleFn(() => {
+  model.value + 1 > props.max ? (model.value = props.max) : model.value++;
+
+  updateSliderPositionByValue(model.value);
+}, 200);
+
 onMounted(() => {
   initSegments();
 });
+
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    updateSliderPositionByValue(newVal);
+  },
+);
 </script>
 
 <style scoped>
@@ -168,7 +232,7 @@ onMounted(() => {
 
 .slider-wrapper {
   position: relative;
-  width: 100%;
+  width: 80%;
   height: 100%;
   display: flex;
   justify-content: center;
