@@ -1,10 +1,19 @@
 <template>
-  <div>
-    <DigitalRange
-      :min="8"
-      :max="16"
-      v-model:model-value="generatorStore.length"
-    ></DigitalRange>
+  <div class="h-full w-full">
+    <!-- length -->
+    <TabelRow>
+      <template #label>Length</template>
+
+      <template #content>
+        <DigitalRange
+          :min="8"
+          :max="16"
+          v-model:model-value="generatorStore.length"
+        ></DigitalRange>
+      </template>
+    </TabelRow>
+
+    <TabelRow> </TabelRow>
   </div>
 </template>
 
@@ -12,6 +21,7 @@
 import { watch } from "vue";
 import DigitalRange from "./components/DigitalRange.vue";
 import { useGeneratorStore } from "./store/generatorStore.ts";
+import TabelRow from "./components/TabelRow.vue";
 
 const generatorStore = useGeneratorStore();
 
@@ -21,6 +31,7 @@ watch(
     console.log("Length changed:", newLength);
   },
 );
+// TODP resize
 </script>
 
 <style scoped></style>

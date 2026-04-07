@@ -23,6 +23,7 @@ body {
 #app {
   width: 90%;
   height: 90%;
+  color: var(--main-color-blue);
 }
 
 /* #region Glitch Animation */
