@@ -13,7 +13,12 @@
       </template>
     </TabelRow>
 
-    <TabelRow> </TabelRow>
+    <!-- include uppercase -->
+    <TabelRow>
+      <template #label>include uppercase</template>
+
+      <template #content> </template>
+    </TabelRow>
   </div>
 </template>
 
